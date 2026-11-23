@@ -18,9 +18,11 @@
   --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   color-scheme: dark;
+  --clubbar-max: 1120px; /* [22 nov · barra del club] alinea la barra con .wrap */
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+/* [22 nov · barra del club] antes: scroll-padding-top: 64px */
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--clubbar-h, 0px) + 64px); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
 a { color: var(--gold); text-underline-offset: 3px; }
@@ -40,7 +42,8 @@ h1 { font-family: var(--display); font-weight: 700; font-size: clamp(32px, 6vw, 
 .how b { display: block; font-family: var(--display); font-size: 24px; margin-bottom: 4px; }
 .how span { color: var(--muted); font-size: 14px; }
 
-nav.sections { position: sticky; top: 0; z-index: 30; background: rgba(11, 11, 10, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+/* [22 nov · barra del club] antes: top: 0 */
+nav.sections { position: sticky; top: var(--clubbar-h, 0px); z-index: 30; background: rgba(11, 11, 10, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 nav.sections .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-top: 8px; padding-bottom: 8px; }
 nav.sections .wrap::-webkit-scrollbar { display: none; }
 nav.sections a { flex: none; font-family: var(--mono); font-size: 12px; color: var(--muted); text-decoration: none; padding: 8px 12px; border-radius: 999px; border: 1px solid transparent; }
@@ -108,7 +111,8 @@ h2 { font-family: var(--display); font-weight: 600; font-size: clamp(26px, 4vw, 
 .mod.sel { border-color: var(--ink); background: var(--surface-3); opacity: 1; }
 .mod.pre { box-shadow: 0 0 0 2px var(--gold); opacity: 1; }
 .mod.unl { box-shadow: 0 0 0 2px var(--teal); opacity: 1; }
-.detail { position: sticky; top: 72px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+/* [22 nov · barra del club] antes: top: 72px */
+.detail { position: sticky; top: calc(var(--clubbar-h, 0px) + 72px); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
 .detail h3 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; }
 .detail .meta { display: flex; flex-wrap: wrap; gap: 6px; }
 .detail .meta span { font-family: var(--mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; }
@@ -189,6 +193,8 @@ footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 20px 0 40
 </style>
 </head>
 <body>
+<!-- [22 nov · barra del club] barra compartida con logo y cambio entre mallas: ver club-bar.js -->
+<script src="club-bar.js"></script>
 
 <header class="top">
   <div class="wrap">
@@ -282,6 +288,8 @@ footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 20px 0 40
     <p class="sec-lede">Cada semestre se dicta la misma secuencia. Quien va en intensivo toma todo; quien va en flexible entra solo a las semanas de su nivel. El nivel 4 corre todo el año en paralelo.</p>
     <div class="weeks-scroll"><div class="weeks" id="weeks"></div></div>
     <p class="note" id="weeks-note"></p>
+    <!-- [22 nov · barra del club] enlace a la malla semana a semana -->
+    <p class="note"><a href="malla-curricular-fae-usach-2027.html">Ver el 1er semestre 2027 semana a semana, con objetivos y contenidos de cada sesión &rarr;</a></p>
   </section>
 
   <section id="meta">

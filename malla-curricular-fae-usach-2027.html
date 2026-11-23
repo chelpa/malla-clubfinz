@@ -65,6 +65,7 @@
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
+      --clubbar-pad: 28px; /* [22 nov · barra del club] alinea la barra con .app */
     }
 
     * {
@@ -993,6 +994,7 @@
       .app {
         padding: 18px 14px 32px;
       }
+      :root { --clubbar-pad: 14px; } /* [22 nov · barra del club] */
     }
 
     @media print {
@@ -1004,6 +1006,8 @@
   </style>
 </head>
 <body>
+  <!-- [22 nov · barra del club] barra compartida con logo y cambio entre mallas: ver club-bar.js -->
+  <script src="club-bar.js"></script>
   <div class="app">
     <header class="topbar">
       <div>
