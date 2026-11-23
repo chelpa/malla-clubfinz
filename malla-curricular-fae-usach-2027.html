@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malla de formación por área · 1er semestre 2027 · Club de Finanzas FAE USACH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #FAF8F3;
+      --bg-elevated: #FFFFFF;
+      --bg-subtle: #F3EFE6;
+      --border: #E5E0D5;
+      --border-strong: #D3CCBD;
+      --ink: #1C1917;
+      --ink-secondary: #57524A;
+      --ink-muted: #7A7367;
+      --gold: #B68D2C;
+      --gold-soft: #EFE6CC;
+      --gold-mid: #DFC88A;
+      --gold-deep: #C5A249;
+      --demo-bg: #1F1E1C;
+
+      /* Area palettes */
+      --bloomberg-dot: #D9822B;
+      --bloomberg-bg: #FDF1DF;
+      --bloomberg-border: #EFCCA0;
+      --bloomberg-text: #7A420B;
+
+      --quant-dot: #3B82F6;
+      --quant-bg: #DCEBFF;
+      --quant-border: #B3D1FA;
+      --quant-text: #1B4894;
+
+      --valoracion-dot: #2D9D68;
+      --valoracion-bg: #DCF3E7;
+      --valoracion-border: #AFE0C7;
+      --valoracion-text: #175C3B;
+
+      --etica-dot: #D14D5B;
+      --etica-bg: #FCE6E8;
+      --etica-border: #F2BFC5;
+      --etica-text: #85242F;
+
+      --carrera-dot: #9B5DE5;
+      --carrera-bg: #EFE6FD;
+      --carrera-border: #D4BEF8;
+      --carrera-text: #562594;
+
+      --ia-dot: #149E92;
+      --ia-bg: #DCF5F2;
+      --ia-border: #A9E1DA;
+      --ia-text: #0C5E57;
+
+      --blandas-dot: #E07A48;
+      --blandas-bg: #FCEBE2;
+      --blandas-border: #F3C6B0;
+      --blandas-text: #873E1B;
+
+      --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.05);
+      --shadow-md: 0 6px 18px rgba(28, 25, 23, 0.08);
+      --shadow-lg: 0 18px 44px rgba(28, 25, 23, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.45;
+    }
+
+    .app {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 28px 28px 44px;
+    }
+
+    /* Header */
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      font-size: clamp(30px, 3.2vw, 44px);
+      font-weight: 400;
+      line-height: 1.08;
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 14px;
+      color: var(--ink-secondary);
+    }
+
+    /* Progress & Quick Stats */
+    .header-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      color: var(--ink-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-pill strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .progress-bar-wrap {
+      width: 72px;
+      height: 6px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    /* Controls Bar */
+    .controls {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .controls-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 auto;
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 220px;
+      flex: 0 1 260px;
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--ink-muted);
+      pointer-events: none;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 7px 30px 7px 32px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--gold);
+      background: #FFFFFF;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: var(--ink-muted);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      padding: 4px;
+      display: none;
+    }
+
+    .search-clear.visible {
+      display: block;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--ink-secondary);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--ink);
+    }
+
+    .filter-btn.active {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-color: var(--ink);
+    }
+
+    .filter-btn.sura-toggle.active {
+      background: #0F766E;
+      border-color: #0F766E;
+      color: #FFFFFF;
+    }
+
+    .view-toggle {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+    }
+
+    .view-btn {
+      border: none;
+      background: transparent;
+      color: var(--ink-secondary);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .view-btn.active {
+      background: var(--bg-elevated);
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .icon-btn {
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--ink-secondary);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--ink);
+    }
+
+    /* Area quick filter strip */
+    .area-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+
+    .area-chip-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+      margin-right: 4px;
+    }
+
+    .area-chip {
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--ink-secondary);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .area-chip:hover {
+      border-color: var(--border-strong);
+      color: var(--ink);
+    }
+
+    .area-chip.active {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-color: var(--ink);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 3px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .badge-nuevo {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--gold);
+      color: #FFFFFF;
+      vertical-align: middle;
+    }
+
+    /* Matrix Grid */
+    .matrix-shell {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 230px repeat(16, minmax(76px, 1fr));
+      min-width: 1450px;
+    }
+
+    .grid-cell {
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 6px;
+      position: relative;
+      transition: background 0.15s ease, opacity 0.15s ease;
+    }
+
+    .grid-cell:nth-child(17n) {
+      border-right: none;
+    }
+
+    .sticky-col {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      background: var(--bg-elevated);
+      border-right: 1px solid var(--border-strong);
+      padding: 10px 14px;
+    }
+
+    .header-row .grid-cell {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-strong);
+      text-align: center;
+      padding: 10px 4px;
+    }
+
+    .header-row .sticky-col {
+      text-align: left;
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      background: var(--bg);
+      z-index: 6;
+    }
+
+    .week-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .week-date {
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+
+    .week-header-cell.dimmed {
+      opacity: 0.35;
+    }
+
+    /* Niveles row */
+    .nivel-row-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 13.5px;
+    }
+
+    .nivel-span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      background: var(--bg-elevated);
+    }
+
+    .nivel-pill {
+      width: 100%;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s ease, filter 0.15s ease, opacity 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .nivel-pill:hover {
+      transform: translateY(-1px);
+      filter: brightness(0.97);
+    }
+
+    .nivel-pill.n1 { background: var(--gold-soft); color: #5C4715; border-color: #E2D3A8; }
+    .nivel-pill.n2 { background: var(--gold-mid); color: #4A380D; border-color: #CEB26A; }
+    .nivel-pill.n3 { background: var(--gold-deep); color: #FFFFFF; border-color: #B28F38; }
+    .nivel-pill.demo { background: var(--demo-bg); color: #FFFFFF; border-color: #1F1E1C; }
+    .nivel-pill.dimmed { opacity: 0.3; }
+
+    /* Area rows */
+    .area-label-cell {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .area-label-cell:hover .area-name {
+      color: var(--gold);
+    }
+
+    .area-label-cell .dot {
+      margin-top: 5px;
+    }
+
+    .area-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      transition: color 0.15s ease;
+    }
+
+    .area-sub {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+
+    .area-count {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .row-dimmed {
+      opacity: 0.25;
+    }
+
+    /* Session Card inside Grid */
+    .session-card {
+      width: 100%;
+      min-height: 54px;
+      height: 100%;
+      border-radius: 8px;
+      padding: 7px 8px;
+      border: 1px solid transparent;
+      text-align: left;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.25;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, opacity 0.15s ease;
+    }
+
+    .session-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      z-index: 2;
+    }
+
+    .session-card.dimmed {
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .session-card.completed::after {
+      content: "✓";
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      width: 15px;
+      height: 15px;
+      border-radius: 999px;
+      background: rgba(28, 25, 23, 0.8);
+      color: #FFFFFF;
+      font-size: 9.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .session-card[data-area="bloomberg"] { background: var(--bloomberg-bg); border-color: var(--bloomberg-border); color: var(--bloomberg-text); }
+    .session-card[data-area="quant"] { background: var(--quant-bg); border-color: var(--quant-border); color: var(--quant-text); }
+    .session-card[data-area="valoracion"] { background: var(--valoracion-bg); border-color: var(--valoracion-border); color: var(--valoracion-text); }
+    .session-card[data-area="etica"] { background: var(--etica-bg); border-color: var(--etica-border); color: var(--etica-text); }
+    .session-card[data-area="carrera"] { background: var(--carrera-bg); border-color: var(--carrera-border); color: var(--carrera-text); }
+    .session-card[data-area="ia"] { background: var(--ia-bg); border-color: var(--ia-border); color: var(--ia-text); }
+    .session-card[data-area="blandas"] { background: var(--blandas-bg); border-color: var(--blandas-border); color: var(--blandas-text); }
+
+    /* Projects Section Divider & Bars */
+    .section-divider {
+      grid-column: 1 / -1;
+      background: var(--bg);
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-span-cell {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    .project-bar {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .project-bar:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .project-bar.market-wrap {
+      background: #F6EED9;
+      border-color: #DFC88A;
+      color: #5C4715;
+    }
+
+    .project-bar.lab-competencias {
+      background: #ECEAE4;
+      border-color: #C7C2B7;
+      color: #3D3933;
+    }
+
+    .project-bar.agente-club {
+      background: #E0F5F2;
+      border-color: #7AD0C5;
+      color: #0C5E57;
+    }
+
+    /* Timeline / List View */
+    .timeline-view {
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+    }
+
+    .timeline-view.active {
+      display: grid;
+    }
+
+    .matrix-shell.hidden {
+      display: none;
+    }
+
+    .week-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .week-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .week-card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .week-card-date {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-left: 6px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .week-level-tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .week-level-tag.n1 { background: var(--gold-soft); color: #5C4715; }
+    .week-level-tag.n2 { background: var(--gold-mid); color: #4A380D; }
+    .week-level-tag.n3 { background: var(--gold-deep); color: #FFFFFF; }
+    .week-level-tag.demo { background: var(--demo-bg); color: #FFFFFF; }
+
+    .timeline-session-item {
+      border-radius: 9px;
+      padding: 9px 11px;
+      border: 1px solid;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .timeline-session-item:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .timeline-session-item[data-area="bloomberg"] { background: var(--bloomberg-bg); border-color: var(--bloomberg-border); color: var(--bloomberg-text); }
+    .timeline-session-item[data-area="quant"] { background: var(--quant-bg); border-color: var(--quant-border); color: var(--quant-text); }
+    .timeline-session-item[data-area="valoracion"] { background: var(--valoracion-bg); border-color: var(--valoracion-border); color: var(--valoracion-text); }
+    .timeline-session-item[data-area="etica"] { background: var(--etica-bg); border-color: var(--etica-border); color: var(--etica-text); }
+    .timeline-session-item[data-area="carrera"] { background: var(--carrera-bg); border-color: var(--carrera-border); color: var(--carrera-text); }
+    .timeline-session-item[data-area="ia"] { background: var(--ia-bg); border-color: var(--ia-border); color: var(--ia-text); }
+    .timeline-session-item[data-area="blandas"] { background: var(--blandas-bg); border-color: var(--blandas-border); color: var(--blandas-text); }
+
+    .timeline-session-area {
+      font-size: 10.5px;
+      font-weight: 600;
+      opacity: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .timeline-session-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    .week-projects-note {
+      font-size: 11px;
+      color: var(--ink-muted);
+      padding-top: 4px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .mini-proj-pill {
+      background: var(--bg-subtle);
+      color: var(--ink-secondary);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+
+    /* Drawer / Modal */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 25, 23, 0.35);
+      backdrop-filter: blur(2px);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: min(460px, 100vw);
+      background: var(--bg-elevated);
+      border-left: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      z-index: 60;
+      transform: translateX(100%);
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg);
+    }
+
+    .drawer-close {
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--ink);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .drawer-body {
+      padding: 20px 22px;
+      overflow-y: auto;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .drawer-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .drawer-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--ink-secondary);
+    }
+
+    .drawer-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 30px;
+      line-height: 1.12;
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .drawer-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+      margin-bottom: 6px;
+    }
+
+    .drawer-text {
+      font-size: 14px;
+      color: var(--ink-secondary);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .drawer-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink-secondary);
+      font-size: 13.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .drawer-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .complete-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 9px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .complete-btn.is-done {
+      background: #1E7E4E;
+      border-color: #1E7E4E;
+    }
+
+    .nav-pair {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nav-pair button {
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--ink);
+      padding: 9px 12px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    .nav-pair button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Footer */
+    .footer-notes {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--ink-muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 820px) {
+      .app {
+        padding: 18px 14px 32px;
+      }
+    }
+
+    @media print {
+      body { background: #FFFFFF; }
+      .controls, .area-chips, .header-stats { display: none !important; }
+      .matrix-shell { border: none; box-shadow: none; overflow: visible; }
+      .matrix-grid { min-width: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">Club de Finanzas FAE USACH · Formación Académica</div>
+        <h1>Malla de formación por área · 1er semestre 2027</h1>
+        <p class="subtitle">16 semanas, un taller por semana y 7 áreas. Haz clic en cualquier sesión o proyecto para ver objetivos, contenidos y registrar tu avance.</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill">
+          <span><strong>30</strong> sesiones</span>
+          <span>·</span>
+          <span><strong>7</strong> áreas</span>
+          <span>·</span>
+          <span><strong>3</strong> proyectos</span>
+        </div>
+        <div class="stat-pill" id="progressPill">
+          <span>Avance: <strong id="progressCount">0 / 30</strong></span>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="controls" aria-label="Filtros y vista">
+      <div class="controls-left">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Buscar sesión, tema, R, Python, DCF..." />
+          <button class="search-clear" id="searchClear" title="Limpiar búsqueda">&times;</button>
+        </div>
+
+        <div class="filter-group" id="levelFilters">
+          <button class="filter-btn active" data-level="all">Todos los niveles</button>
+          <button class="filter-btn" data-level="N1">N1 Fundamentos</button>
+          <button class="filter-btn" data-level="N2">N2 Aplicado</button>
+          <button class="filter-btn" data-level="N3">N3 Especialización</button>
+          <button class="filter-btn" data-level="Demo">Demo day</button>
+          <button class="filter-btn sura-toggle" id="suraToggle">Solo nuevo tras SURA</button>
+        </div>
+      </div>
+
+      <div class="controls-right">
+        <div class="view-toggle" role="tablist">
+          <button class="view-btn active" data-view="matrix" role="tab">Malla 16 sem</button>
+          <button class="view-btn" data-view="timeline" role="tab">Vista semanal</button>
+        </div>
+        <button class="icon-btn" id="printBtn" title="Imprimir o guardar como PDF">Imprimir / PDF</button>
+        <button class="icon-btn" id="resetFiltersBtn" title="Restablecer filtros">Limpiar filtros</button>
+      </div>
+    </section>
+
+    <div class="area-chips" id="areaChips">
+      <span class="area-chip-label">Áreas:</span>
+      <button class="area-chip active" data-area="all">Todas</button>
+    </div>
+
+    <!-- Matrix View -->
+    <div class="matrix-shell" id="matrixShell">
+      <div class="matrix-grid" id="matrixGrid"></div>
+    </div>
+
+    <!-- Timeline View -->
+    <div class="timeline-view" id="timelineView"></div>
+
+    <footer class="footer-notes">
+      <span>Inicio supuesto: lunes 29 de marzo de 2027 (la USACH aún no publica su calendario).</span>
+      <span>Borrador v2 + lo nuevo tras SURA · 22 nov 2026</span>
+    </footer>
+  </div>
+
+  <!-- Detail Drawer -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="detailDrawer" aria-hidden="true">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-tag-row" id="drawerTags"></div>
+        <h2 class="drawer-title" id="drawerTitle">Título</h2>
+      </div>
+      <button class="drawer-close" id="drawerClose" aria-label="Cerrar panel">&times;</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-footer" id="drawerFooter"></div>
+  </aside>
+
+  <script>
+    const WEEKS = [
+      { id: 1, code: 'S1', date: '29 mar', level: 'N1', levelLabel: 'N1 Fundamentos' },
+      { id: 2, code: 'S2', date: '5 abr', level: 'N1', levelLabel: 'N1 Fundamentos' },
+      { id: 3, code: 'S3', date: '12 abr', level: 'N1', levelLabel: 'N1 Fundamentos' },
+      { id: 4, code: 'S4', date: '19 abr', level: 'N1', levelLabel: 'N1 Fundamentos' },
+      { id: 5, code: 'S5', date: '26 abr', level: 'N1', levelLabel: 'N1 Fundamentos' },
+      { id: 6, code: 'S6', date: '3 may', level: 'N2', levelLabel: 'N2 Aplicado' },
+      { id: 7, code: 'S7', date: '10 may', level: 'N2', levelLabel: 'N2 Aplicado' },
+      { id: 8, code: 'S8', date: '17 may', level: 'N2', levelLabel: 'N2 Aplicado' },
+      { id: 9, code: 'S9', date: '24 may', level: 'N2', levelLabel: 'N2 Aplicado' },
+      { id: 10, code: 'S10', date: '31 may', level: 'N2', levelLabel: 'N2 Aplicado' },
+      { id: 11, code: 'S11', date: '7 jun', level: 'N2', levelLabel: 'N2 Aplicado' },
+      { id: 12, code: 'S12', date: '14 jun', level: 'N3', levelLabel: 'N3 Especialización' },
+      { id: 13, code: 'S13', date: '21 jun', level: 'N3', levelLabel: 'N3 Especialización' },
+      { id: 14, code: 'S14', date: '28 jun', level: 'N3', levelLabel: 'N3 Especialización' },
+      { id: 15, code: 'S15', date: '5 jul', level: 'N3', levelLabel: 'N3 Especialización' },
+      { id: 16, code: 'S16', date: '12 jul', level: 'Demo', levelLabel: 'Demo day' }
+    ];
+
+    const AREAS = [
+      { id: 'bloomberg', name: 'Bloomberg y mercados', sub: 'Laboratorio Bloomberg', color: '#D9822B', nuevo: false },
+      { id: 'quant', name: 'Quant', sub: 'R y Python', color: '#3B82F6', nuevo: false },
+      { id: 'valoracion', name: 'Valoración y research', sub: 'Modelos y DCF', color: '#2D9D68', nuevo: false },
+      { id: 'etica', name: 'Ética y regulación', sub: 'Bloques de 30 min', color: '#D14D5B', nuevo: false },
+      { id: 'carrera', name: 'Carrera', sub: 'CV, postulaciones, entrevistas', color: '#9B5DE5', nuevo: false },
+      { id: 'ia', name: 'Agentes de IA', sub: 'Nuevo tras SURA', color: '#149E92', nuevo: true },
+      { id: 'blandas', name: 'Habilidades blandas', sub: 'Nuevo tras SURA', color: '#E07A48', nuevo: true }
+    ];
+
+    const SESSIONS = [
+      // Bloomberg y mercados (9)
+      {
+        id: 'bb-1', area: 'bloomberg', week: 2, title: 'Terminal 101',
+        objective: 'Dominar la navegación base del Terminal Bloomberg en el laboratorio FAE: comandos esenciales, tickers y pantallas de mercado.',
+        topics: ['Estructura de teclas amarillas (EQUITY, GOVT, CURNCY, CMDTY)', 'Funciones WEI, DES, GP, FA y N', 'Configuración de watchlist para el semestre'],
+        prereq: 'Ninguno — puerta de entrada al Laboratorio Bloomberg.'
+      },
+      {
+        id: 'bb-2', area: 'bloomberg', week: 4, title: 'Datos a Excel',
+        objective: 'Extraer series históricas, estados financieros y precios en tiempo real hacia Excel usando el complemento de Bloomberg.',
+        topics: ['Fórmulas BDP, BDH y BDS', 'Limpieza de series y manejo de monedas/fechas', 'Construcción de una plantilla reutilizable para research'],
+        prereq: 'Terminal 101 (S2).'
+      },
+      {
+        id: 'bb-3', area: 'bloomberg', week: 5, title: 'Mesas de dinero',
+        objective: 'Entender la dinámica diaria de una mesa de dinero local e internacional: liquidez, spreads, ejecución y gestión de flujo.',
+        topics: ['Estructura buy-side vs. sell-side', 'Instrumentos de corto plazo y mercado interbancario', 'Lectura de pantallas de cotización y órdenes'],
+        prereq: 'Terminal 101 (S2).'
+      },
+      {
+        id: 'bb-4', area: 'bloomberg', week: 7, title: 'Macro y tasas',
+        objective: 'Conectar indicadores macroeconómicos con la curva de tasas de interés y las decisiones de política monetaria.',
+        topics: ['TPM, inflación (IPC/UF), empleo y actividad (IMACEC)', 'Lectura de curvas soberanas y swaps (Camara/OIS)', 'Pantallas ECST, WIRP y GC en Bloomberg'],
+        prereq: 'Datos a Excel (S4).'
+      },
+      {
+        id: 'bb-5', area: 'bloomberg', week: 8, title: 'Renta fija',
+        objective: 'Valorizar bonos corporativos y soberanos analizando duration, convexidad, spreads de crédito y riesgo de tasa.',
+        topics: ['Bonos en UF, CLP y USD', 'YTM, Duration modificada y DV01', 'Análisis de emisiones chilenas en pantalla YAS'],
+        prereq: 'Macro y tasas (S7).'
+      },
+      {
+        id: 'bb-6', area: 'bloomberg', week: 9, title: 'FX',
+        objective: 'Analizar el mercado cambiario (USD/CLP y cruces G10) desde los fundamentos macro, diferenciales de tasas y flujos.',
+        topics: ['Tipo de cambio spot, forwards NDF y paridad cubierta', 'Correlación USD/CLP con cobre y DXY', 'Pantallas FXC, FRD y FXFA'],
+        prereq: 'Macro y tasas (S7).'
+      },
+      {
+        id: 'bb-7', area: 'bloomberg', week: 11, title: 'Acciones',
+        objective: 'Evaluar renta variable local (IPSA) y global combinando múltiplos, consenso de analistas y catalizadores.',
+        topics: ['Screening con EQS', 'Consenso de estimaciones (EE, ANR)', 'Conexión con el taller de DCF y múltiplos de la misma semana'],
+        prereq: 'Datos a Excel (S4) y 3 estados financieros (S7).'
+      },
+      {
+        id: 'bb-8', area: 'bloomberg', week: 13, title: 'Derivados',
+        objective: 'Comprender el uso de futuros, forwards, swaps y opciones para cobertura y posicionamiento direccional.',
+        topics: ['Payoffs y griegas básicas (Delta, Gamma, Vega)', 'Volatilidad implícita vs. realizada (OVME)', 'Casos prácticos de cobertura corporativa'],
+        prereq: 'Renta fija (S8) y FX (S9).'
+      },
+      {
+        id: 'bb-9', area: 'bloomberg', week: 14, title: 'Cobre',
+        objective: 'Analizar el mercado del cobre como activo estratégico para Chile: oferta, demanda, inventarios y sensibilidad macro.',
+        topics: ['LME vs. COMEX, curvas forward (contango/backwardation)', 'Inventarios, costos C1 y demanda china/transición energética', 'Impacto en ingresos fiscales, CLP y acciones mineras'],
+        prereq: 'FX (S9) y Derivados (S13).'
+      },
+
+      // Quant (6)
+      {
+        id: 'q-1', area: 'quant', week: 3, title: 'R 1',
+        objective: 'Iniciar el manejo de R y RStudio orientado a datos financieros: vectores, data frames e importación de series.',
+        topics: ['Ecosistema RStudio y tidyverse', 'Importación de precios y cálculo de retornos simples/log', 'Estadística descriptiva básica'],
+        prereq: 'Ninguno.'
+      },
+      {
+        id: 'q-2', area: 'quant', week: 4, title: 'Python 1',
+        objective: 'Dar los primeros pasos en Python financiero con pandas y Jupyter para manipular tablas y series de tiempo.',
+        topics: ['Tipos de datos, funciones y pandas DataFrames', 'Descarga y limpieza de series bursátiles', 'Comparativa práctica R vs. Python'],
+        prereq: 'Ninguno.'
+      },
+      {
+        id: 'q-3', area: 'quant', week: 6, title: 'R 2',
+        objective: 'Visualizar series financieras y calcular métricas de riesgo-retorno con ggplot2 y paquetes cuantitativos.',
+        topics: ['Gráficos de precios, drawdowns y distribuciones en ggplot2', 'Volatilidad anualizada y ratio de Sharpe', 'Matrices de correlación entre activos'],
+        prereq: 'R 1 (S3).'
+      },
+      {
+        id: 'q-4', area: 'quant', week: 10, title: 'R 3 y Python 2',
+        objective: 'Integrar regresión lineal y manejo avanzado de portafolios combinando flujos en R y Python.',
+        topics: ['Automatización de reportes y backtesting simple', 'Optimización media-varianza (frontera eficiente)', 'Manejo de APIs financieras en Python'],
+        prereq: 'Python 1 (S4) y R 2 (S6).'
+      },
+      {
+        id: 'q-5', area: 'quant', week: 12, title: 'R 4: beta',
+        objective: 'Estimar betas de mercado (CAPM), alpha de Jensen y modelos multifactoriales en R con datos reales.',
+        topics: ['Regresión de excesos de retorno contra el IPSA / S&P 500', 'Betas móviles (rolling beta) y estabilidad temporal', 'Test de significancia y errores estándar robustos'],
+        prereq: 'R 3 y Python 2 (S10).'
+      },
+      {
+        id: 'q-6', area: 'quant', week: 15, title: 'R 5: Monte Carlo',
+        objective: 'Simular trayectorias de precios y flujos mediante Monte Carlo en R para valorización y gestión de riesgo.',
+        topics: ['Movimiento Browniano Geométrico', 'Simulación de VaR y Expected Shortfall', 'Valoración aproximada de opciones y escenarios'],
+        prereq: 'R 4: beta (S12).'
+      },
+
+      // Valoración y research (2)
+      {
+        id: 'v-1', area: 'valoracion', week: 7, title: '3 estados financieros',
+        objective: 'Conectar Estado de Resultados, Balance General y Flujo de Efectivo en un modelo integrado y consistente.',
+        topics: ['Capital de trabajo, Capex y depreciación', 'Cuadratura de caja y deuda financiera neta', 'Buenas prácticas de modelamiento financiero en Excel'],
+        prereq: 'Datos a Excel (S4).'
+      },
+      {
+        id: 'v-2', area: 'valoracion', week: 11, title: 'DCF y múltiplos',
+        objective: 'Construir una valorización por Flujo de Caja Descontado (DCF) y contrastarla con múltiplos comparables.',
+        topics: ['Cálculo de FCFF y WACC (Ke, Kd, estructura de capital)', 'Valor terminal (perpetuidad vs. múltiplo de salida)', 'Tablas de sensibilidad y análisis EV/EBITDA, P/E'],
+        prereq: '3 estados financieros (S7).'
+      },
+
+      // Ética y regulación (3)
+      {
+        id: 'e-1', area: 'etica', week: 1, title: 'Código CFA',
+        objective: 'Introducir los estándares éticos y conducta profesional del CFA Institute como marco base del club.',
+        topics: ['Deber fiduciario y lealtad al cliente', 'Integridad de los mercados e información privilegiada', 'Conflictos de interés en research y asesoría'],
+        prereq: 'Ninguno — sesión inaugural en bloque de 30 min.'
+      },
+      {
+        id: 'e-2', area: 'etica', week: 8, title: 'Caso STF y Factop',
+        objective: 'Analizar un caso real reciente del mercado financiero chileno para identificar fallas de control, gobernanza y regulación.',
+        topics: ['Cronología del caso y actores involucrados', 'Facturas falsas, custodia y rol de las corredoras', 'Lecciones éticas para analistas y ejecutivos jóvenes'],
+        prereq: 'Código CFA (S1).'
+      },
+      {
+        id: 'e-3', area: 'etica', week: 12, title: 'CMF y CAMV',
+        objective: 'Conocer el marco regulatorio chileno supervisado por la CMF y la certificación de acreditación del CAMV.',
+        topics: ['Leyes clave del mercado de valores y fondos', 'Categorías de acreditación CAMV para trabajar en la industria', 'Obligaciones de reportabilidad y compliance'],
+        prereq: 'Caso STF y Factop (S8).'
+      },
+
+      // Carrera (3)
+      {
+        id: 'c-1', area: 'carrera', week: 3, title: 'CV y LinkedIn',
+        objective: 'Estructurar un currículum financiero de alto impacto (formato 1 página) y optimizar el perfil de LinkedIn.',
+        topics: ['Verbos de acción y cuantificación de logros académicos/club', 'Errores comunes en CVs de pregrado', 'Estrategia de networking en LinkedIn con alumni FAE'],
+        prereq: 'Ninguno.'
+      },
+      {
+        id: 'c-2', area: 'carrera', week: 9, title: 'Postular a prácticas',
+        objective: 'Preparar el calendario y la estrategia de postulación a prácticas en banca, AGFs, family offices y consultoras.',
+        topics: ['Ventanas de postulación en Chile (invierno y verano)', 'Carta de presentación y seguimiento de procesos', 'Cómo destacar proyectos del club (Market Wrap, DCF, IA)'],
+        prereq: 'CV y LinkedIn (S3).'
+      },
+      {
+        id: 'c-3', area: 'carrera', week: 14, title: 'Entrevistas simuladas',
+        objective: 'Practicar entrevistas técnicas y conductuales en formato real con feedback inmediato.',
+        topics: ['Preguntas técnicas: contabilidad, DCF, macro y actualidad', 'Preguntas conductuales y método STAR', 'Simulacro 1-a-1 con rúbrica de evaluación'],
+        prereq: 'Postular a prácticas (S9) y DCF y múltiplos (S11).'
+      },
+
+      // Agentes de IA (3) — Nuevo tras SURA
+      {
+        id: 'ia-1', area: 'ia', week: 5, title: 'Qué es un agente',
+        objective: 'Comprender la arquitectura de los agentes de IA modernos y en qué se diferencian de un chat tradicional.',
+        topics: ['LLM + herramientas + memoria + bucle de planificación', 'Casos de uso reales en finanzas y gestión de activos (aprendizaje SURA)', 'Diseño de prompts estructurados y flujos seguros'],
+        prereq: 'Ninguno — área nueva incorporada tras SURA.'
+      },
+      {
+        id: 'ia-2', area: 'ia', week: 12, title: 'Construir un agente',
+        objective: 'Implementar un agente funcional conectado a fuentes financieras para automatizar lectura, síntesis o monitoreo.',
+        topics: ['Definición de herramientas (APIs, documentos, planillas)', 'Evaluación de salidas y manejo de alucinaciones', 'Base técnica para el Proyecto: agente del club (S12–S16)'],
+        prereq: 'Qué es un agente (S5) y Python 1 (S4).'
+      },
+      {
+        id: 'ia-3', area: 'ia', week: 13, title: 'IA responsable',
+        objective: 'Aplicar criterios de privacidad, gobernanza, sesgos y cumplimiento regulatorio al uso de IA en finanzas.',
+        topics: ['Confidencialidad de datos de clientes y secretos comerciales', 'Trazabilidad y supervisión humana (human-in-the-loop)', 'Cruce directo con CMF, CAMV y Código CFA'],
+        prereq: 'Construir un agente (S12) y CMF y CAMV (S12).'
+      },
+
+      // Habilidades blandas (4) — Nuevo tras SURA
+      {
+        id: 'hb-1', area: 'blandas', week: 2, title: 'Pitch de 60 s',
+        objective: 'Aprender a presentar una idea de inversión o perfil profesional en 60 segundos con claridad y convicción.',
+        topics: ['Estructura gancho → tesis → evidencia → cierre', 'Control de ritmo, postura y muletillas', 'Práctica cronometrada en parejas'],
+        prereq: 'Ninguno — área nueva incorporada tras SURA.'
+      },
+      {
+        id: 'hb-2', area: 'blandas', week: 6, title: 'Comunicar con datos',
+        objective: 'Transformar análisis técnicos de Excel, Bloomberg o R en historias ejecutivas comprensibles para tomadores de decisión.',
+        topics: ['Principio de la pirámide (conclusión primero)', 'Selección de gráficos y limpieza visual de slides', 'Evitar la sobrecarga de tablas en presentaciones'],
+        prereq: 'Pitch de 60 s (S2).'
+      },
+      {
+        id: 'hb-3', area: 'blandas', week: 9, title: 'Asesoría a clientes',
+        objective: 'Desarrollar escucha activa y empatía para traducir objetivos financieros de un cliente en recomendaciones claras.',
+        topics: ['Levantamiento de perfil de riesgo y horizonte', 'Explicar volatilidad y escenarios sin jerga innecesaria', 'Manejo de objeciones con transparencia ética'],
+        prereq: 'Comunicar con datos (S6).'
+      },
+      {
+        id: 'hb-4', area: 'blandas', week: 15, title: 'Negociación',
+        objective: 'Entrenar técnicas de negociación colaborativa aplicables a cierres comerciales, comités y ofertas laborales.',
+        topics: ['Preparación de BATNA y zona de posible acuerdo (ZOPA)', 'Anclaje basado en datos objetivos', 'Role-play de cierre antes del Demo day'],
+        prereq: 'Asesoría a clientes (S9).'
+      }
+    ];
+
+    const PROJECTS = [
+      {
+        id: 'proj-market-wrap',
+        name: 'Market Wrap semanal',
+        sub: 'Bilingüe desde S10',
+        spanText: 'S7–S16',
+        startWeek: 7,
+        endWeek: 16,
+        cssClass: 'market-wrap',
+        color: '#C5A049',
+        description: 'Publicación semanal del club que resume los principales movimientos de tasas, monedas, commodities y bolsas locales e internacionales.',
+        milestones: [
+          'S7–S9: Edición inicial en español apoyada por datos de Bloomberg (Macro, Renta Fija, FX).',
+          'S10–S16: Transición a formato bilingüe (español / inglés) para fortalecer vocabulario técnico internacional.',
+          'S16: Compilación de aprendizajes y métricas de alcance en el Demo day.'
+        ]
+      },
+      {
+        id: 'proj-lab-comp',
+        name: 'Laboratorio de competencias',
+        sub: 'Grupo seleccionado por IPA',
+        spanText: 'S9–S16',
+        startWeek: 9,
+        endWeek: 16,
+        cssClass: 'lab-competencias',
+        color: '#8C857B',
+        description: 'Entrenamiento intensivo de casos financieros y competencias interuniversitarias para el equipo seleccionado mediante Índice de Participación y Avance (IPA).',
+        milestones: [
+          'S9: Selección de integrantes según IPA acumulado en las primeras 8 semanas.',
+          'S10–S15: Resolución semanal de casos de valoración, research y defensa ante jurado.',
+          'S16: Presentación de tesis final en el Demo day.'
+        ]
+      },
+      {
+        id: 'proj-agente-club',
+        name: 'Proyecto: agente del club',
+        sub: 'Nuevo tras SURA · demo en S16',
+        spanText: 'S12–S16',
+        startWeek: 12,
+        endWeek: 16,
+        cssClass: 'agente-club',
+        color: '#149E92',
+        description: 'Desarrollo colaborativo de un agente de IA propio del Club de Finanzas FAE USACH para apoyar research, síntesis de noticias o preparación de sesiones.',
+        milestones: [
+          'S12: Definición de arquitectura y herramientas tras el taller "Construir un agente".',
+          'S13: Auditoría de privacidad y cumplimiento con el taller "IA responsable".',
+          'S14–S15: Pruebas integradas con el equipo de Quant y Valoración.',
+          'S16: Demostración en vivo en el Demo day.'
+        ]
+      }
+    ];
+
+    // State
+    const STORAGE_KEY = 'cdf_usach_malla_2027_completed';
+    let completedIds = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    let activeLevel = 'all';
+    let activeArea = 'all';
+    let onlySura = false;
+    let searchQuery = '';
+    let activeView = 'matrix';
+    let currentDrawerItem = null;
+
+    // Elements
+    const matrixGrid = document.getElementById('matrixGrid');
+    const matrixShell = document.getElementById('matrixShell');
+    const timelineView = document.getElementById('timelineView');
+    const areaChips = document.getElementById('areaChips');
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    const suraToggle = document.getElementById('suraToggle');
+    const progressCount = document.getElementById('progressCount');
+    const progressFill = document.getElementById('progressFill');
+    const drawer = document.getElementById('detailDrawer');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    const drawerTags = document.getElementById('drawerTags');
+    const drawerTitle = document.getElementById('drawerTitle');
+    const drawerBody = document.getElementById('drawerBody');
+    const drawerFooter = document.getElementById('drawerFooter');
+
+    function saveProgress() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedIds]));
+      updateProgressUI();
+    }
+
+    function updateProgressUI() {
+      const done = completedIds.size;
+      const total = SESSIONS.length;
+      progressCount.textContent = `${done} / ${total}`;
+      progressFill.style.width = `${Math.round((done / total) * 100)}%`;
+    }
+
+    function sessionMatches(s) {
+      const weekObj = WEEKS.find(w => w.id === s.week);
+      const areaObj = AREAS.find(a => a.id === s.area);
+      if (activeLevel !== 'all' && weekObj.level !== activeLevel) return false;
+      if (activeArea !== 'all' && s.area !== activeArea) return false;
+      if (onlySura && !areaObj.nuevo) return false;
+      if (searchQuery.trim() !== '') {
+        const q = searchQuery.trim().toLowerCase();
+        const haystack = [
+          s.title,
+          areaObj.name,
+          areaObj.sub,
+          weekObj.code,
+          weekObj.date,
+          weekObj.levelLabel,
+          s.objective,
+          ...s.topics
+        ].join(' ').toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    }
+
+    function buildAreaChips() {
+      AREAS.forEach(area => {
+        const btn = document.createElement('button');
+        btn.className = 'area-chip';
+        btn.dataset.area = area.id;
+        btn.innerHTML = `<span class="dot" style="background:${area.color}"></span><span>${area.name}</span>${area.nuevo ? '<span class="badge-nuevo">NUEVO</span>' : ''}`;
+        btn.addEventListener('click', () => {
+          activeArea = activeArea === area.id ? 'all' : area.id;
+          syncFilterUI();
+          render();
+        });
+        areaChips.appendChild(btn);
+      });
+    }
+
+    function syncFilterUI() {
+      document.querySelectorAll('#levelFilters .filter-btn[data-level]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.level === activeLevel);
+      });
+      suraToggle.classList.toggle('active', onlySura);
+      document.querySelectorAll('#areaChips .area-chip').forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.area === activeArea);
+      });
+      searchClear.classList.toggle('visible', searchQuery.length > 0);
+    }
+
+    function renderMatrix() {
+      matrixGrid.innerHTML = '';
+
+      // 1. Header Row
+      const corner = document.createElement('div');
+      corner.className = 'grid-cell sticky-col';
+      corner.textContent = 'SEMANA';
+      const headerWrap = document.createDocumentFragment();
+
+      const cornerCell = document.createElement('div');
+      cornerCell.className = 'grid-cell sticky-col';
+      cornerCell.style.background = 'var(--bg)';
+      cornerCell.style.borderBottom = '1px solid var(--border-strong)';
+      cornerCell.style.fontSize = '11px';
+      cornerCell.style.fontWeight = '700';
+      cornerCell.style.letterSpacing = '0.08em';
+      cornerCell.style.color = 'var(--ink-muted)';
+      cornerCell.style.display = 'flex';
+      cornerCell.style.alignItems = 'center';
+      cornerCell.textContent = 'SEMANA';
+      headerWrap.appendChild(cornerCell);
+
+      WEEKS.forEach(w => {
+        const cell = document.createElement('div');
+        cell.className = 'grid-cell week-header-cell';
+        cell.style.background = 'var(--bg)';
+        cell.style.borderBottom = '1px solid var(--border-strong)';
+        cell.style.textAlign = 'center';
+        if (activeLevel !== 'all' && w.level !== activeLevel) {
+          cell.classList.add('dimmed');
+        }
+        cell.innerHTML = `<div class="week-code">${w.code}</div><div class="week-date">${w.date}</div>`;
+        headerWrap.appendChild(cell);
+      });
+      matrixGrid.appendChild(headerWrap);
+
+      // 2. Niveles Row
+      const nivelLabel = document.createElement('div');
+      nivelLabel.className = 'grid-cell sticky-col nivel-row-label';
+      nivelLabel.innerHTML = `<span class="dot" style="background:var(--gold)"></span><span>Niveles</span>`;
+      matrixGrid.appendChild(nivelLabel);
+
+      const levelSpans = [
+        { level: 'N1', label: 'N1 Fundamentos', cls: 'n1', start: 2, end: 7 },
+        { level: 'N2', label: 'N2 Aplicado', cls: 'n2', start: 7, end: 13 },
+        { level: 'N3', label: 'N3 Especialización', cls: 'n3', start: 13, end: 17 },
+        { level: 'Demo', label: 'Demo day', cls: 'demo', start: 17, end: 18 }
+      ];
+
+      levelSpans.forEach(span => {
+        const wrap = document.createElement('div');
+        wrap.className = 'nivel-span';
+        wrap.style.gridColumn = `${span.start} / ${span.end}`;
+        const pill = document.createElement('button');
+        pill.className = `nivel-pill ${span.cls}`;
+        if (activeLevel !== 'all' && activeLevel !== span.level) {
+          pill.classList.add('dimmed');
+        }
+        pill.textContent = span.label;
+        pill.title = `Filtrar por ${span.label}`;
+        pill.addEventListener('click', () => {
+          activeLevel = activeLevel === span.level ? 'all' : span.level;
+          syncFilterUI();
+          render();
+        });
+        wrap.appendChild(pill);
+        matrixGrid.appendChild(wrap);
+      });
+
+      // 3. Area Rows
+      AREAS.forEach(area => {
+        const areaSessions = SESSIONS.filter(s => s.area === area.id);
+        const areaDimmed = (activeArea !== 'all' && activeArea !== area.id) || (onlySura && !area.nuevo);
+
+        const labelCell = document.createElement('div');
+        labelCell.className = `grid-cell sticky-col area-label-cell ${areaDimmed ? 'row-dimmed' : ''}`;
+        labelCell.innerHTML = `
+          <span class="dot" style="background:${area.color}"></span>
+          <div>
+            <div class="area-name">${area.name} ${area.nuevo ? '<span class="badge-nuevo">NUEVO</span>' : ''}</div>
+            <div class="area-sub">${area.sub}</div>
+            <div class="area-count">${areaSessions.length} sesiones</div>
+          </div>
+        `;
+        labelCell.addEventListener('click', () => {
+          activeArea = activeArea === area.id ? 'all' : area.id;
+          syncFilterUI();
+          render();
+        });
+        matrixGrid.appendChild(labelCell);
+
+        WEEKS.forEach(w => {
+          const cell = document.createElement('div');
+          cell.className = 'grid-cell';
+          const session = areaSessions.find(s => s.week === w.id);
+          if (session) {
+            const matches = sessionMatches(session);
+            const btn = document.createElement('button');
+            btn.className = 'session-card';
+            btn.dataset.area = area.id;
+            if (!matches) btn.classList.add('dimmed');
+            if (completedIds.has(session.id)) btn.classList.add('completed');
+            btn.textContent = session.title;
+            btn.addEventListener('click', () => openSessionDrawer(session));
+            cell.appendChild(btn);
+          }
+          matrixGrid.appendChild(cell);
+        });
+      });
+
+      // 4. Projects Section
+      const divider = document.createElement('div');
+      divider.className = 'section-divider';
+      divider.textContent = 'Proyectos que cruzan el semestre';
+      matrixGrid.appendChild(divider);
+
+      PROJECTS.forEach(proj => {
+        const labelCell = document.createElement('div');
+        labelCell.className = 'grid-cell sticky-col area-label-cell';
+        labelCell.innerHTML = `
+          <span class="dot" style="background:${proj.color}"></span>
+          <div>
+            <div class="area-name">${proj.name}</div>
+            <div class="area-sub">${proj.sub}</div>
+          </div>
+        `;
+        labelCell.addEventListener('click', () => openProjectDrawer(proj));
+        matrixGrid.appendChild(labelCell);
+
+        // Empty cells before project starts
+        for (let w = 1; w < proj.startWeek; w++) {
+          const empty = document.createElement('div');
+          empty.className = 'grid-cell';
+          matrixGrid.appendChild(empty);
+        }
+
+        // Spanning bar
+        const spanCell = document.createElement('div');
+        spanCell.className = 'project-span-cell';
+        spanCell.style.gridColumn = `${proj.startWeek + 1} / ${proj.endWeek + 2}`;
+        const bar = document.createElement('button');
+        bar.className = `project-bar ${proj.cssClass}`;
+        bar.innerHTML = `<span>${proj.spanText}</span><span style="font-weight:500;opacity:0.8">Ver detalle →</span>`;
+        bar.addEventListener('click', () => openProjectDrawer(proj));
+        spanCell.appendChild(bar);
+        matrixGrid.appendChild(spanCell);
+      });
+    }
+
+    function renderTimeline() {
+      timelineView.innerHTML = '';
+      let renderedAny = false;
+
+      WEEKS.forEach(w => {
+        if (activeLevel !== 'all' && w.level !== activeLevel) return;
+
+        const weekSessions = SESSIONS.filter(s => s.week === w.id && sessionMatches(s));
+        const activeProjects = PROJECTS.filter(p => w.id >= p.startWeek && w.id <= p.endWeek);
+
+        // If filtering by search or area or sura, skip empty weeks unless it's Demo day with no filters
+        const isFiltered = activeArea !== 'all' || onlySura || searchQuery.trim() !== '';
+        if (isFiltered && weekSessions.length === 0) return;
+
+        renderedAny = true;
+        const card = document.createElement('div');
+        card.className = 'week-card';
+
+        const levelClass = w.level.toLowerCase();
+        card.innerHTML = `
+          <div class="week-card-header">
+            <div>
+              <span class="week-card-title">${w.code}</span>
+              <span class="week-card-date">Lunes ${w.date} 2027</span>
+            </div>
+            <span class="week-level-tag ${levelClass}">${w.levelLabel}</span>
+          </div>
+        `;
+
+        if (weekSessions.length === 0 && w.level === 'Demo') {
+          const demoBox = document.createElement('div');
+          demoBox.style.cssText = 'padding:14px;border-radius:9px;background:var(--demo-bg);color:#fff;font-size:13px;font-weight:600;text-align:center;';
+          demoBox.textContent = 'Demo day · Cierre de semestre y presentación de proyectos';
+          card.appendChild(demoBox);
+        } else {
+          weekSessions.forEach(s => {
+            const areaObj = AREAS.find(a => a.id === s.area);
+            const item = document.createElement('div');
+            item.className = 'timeline-session-item';
+            item.dataset.area = s.area;
+            const doneMark = completedIds.has(s.id) ? '✓ ' : '';
+            item.innerHTML = `
+              <div>
+                <div class="timeline-session-area">${areaObj.name}</div>
+                <div class="timeline-session-title">${doneMark}${s.title}</div>
+              </div>
+              <span style="font-size:12px;opacity:0.75">→</span>
+            `;
+            item.addEventListener('click', () => openSessionDrawer(s));
+            card.appendChild(item);
+          });
+        }
+
+        if (activeProjects.length > 0) {
+          const projNote = document.createElement('div');
+          projNote.className = 'week-projects-note';
+          activeProjects.forEach(p => {
+            const pill = document.createElement('span');
+            pill.className = 'mini-proj-pill';
+            pill.textContent = p.name;
+            projNote.appendChild(pill);
+          });
+          card.appendChild(projNote);
+        }
+
+        timelineView.appendChild(card);
+      });
+
+      if (!renderedAny) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'No hay sesiones que coincidan con los filtros actuales.';
+        timelineView.appendChild(empty);
+      }
+    }
+
+    function openSessionDrawer(session) {
+      currentDrawerItem = { type: 'session', data: session };
+      const areaObj = AREAS.find(a => a.id === session.area);
+      const weekObj = WEEKS.find(w => w.id === session.week);
+      const isDone = completedIds.has(session.id);
+
+      drawerTags.innerHTML = `
+        <span class="drawer-tag" style="border-color:${areaObj.color};color:${areaObj.color};font-weight:700">${areaObj.name}</span>
+        <span class="drawer-tag">${weekObj.code} · ${weekObj.date} 2027</span>
+        <span class="drawer-tag">${weekObj.levelLabel}</span>
+        ${areaObj.nuevo ? '<span class="badge-nuevo">NUEVO TRAS SURA</span>' : ''}
+      `;
+      drawerTitle.textContent = session.title;
+
+      drawerBody.innerHTML = `
+        <div>
+          <div class="drawer-section-label">Formato / Línea</div>
+          <p class="drawer-text">${areaObj.sub}</p>
+        </div>
+        <div>
+          <div class="drawer-section-label">Objetivo de la sesión</div>
+          <p class="drawer-text">${session.objective}</p>
+        </div>
+        <div>
+          <div class="drawer-section-label">Contenidos clave</div>
+          <ul class="drawer-list">
+            ${session.topics.map(t => `<li>${t}</li>`).join('')}
+          </ul>
+        </div>
+        <div>
+          <div class="drawer-section-label">Prerrequisitos y conexión</div>
+          <p class="drawer-text">${session.prereq}</p>
+        </div>
+      `;
+
+      const areaSessions = SESSIONS.filter(s => s.area === session.area);
+      const idx = areaSessions.findIndex(s => s.id === session.id);
+      const prevSession = idx > 0 ? areaSessions[idx - 1] : null;
+      const nextSession = idx < areaSessions.length - 1 ? areaSessions[idx + 1] : null;
+
+      drawerFooter.innerHTML = `
+        <button class="complete-btn ${isDone ? 'is-done' : ''}" id="toggleDoneBtn">
+          ${isDone ? '✓ Sesión completada' : 'Marcar como completada'}
+        </button>
+        <div class="nav-pair">
+          <button id="prevAreaBtn" ${!prevSession ? 'disabled' : ''} title="Sesión anterior del área">← Ant.</button>
+          <button id="nextAreaBtn" ${!nextSession ? 'disabled' : ''} title="Siguiente sesión del área">Sig. →</button>
+        </div>
+      `;
+
+      document.getElementById('toggleDoneBtn').addEventListener('click', () => {
+        if (completedIds.has(session.id)) {
+          completedIds.delete(session.id);
+        } else {
+          completedIds.add(session.id);
+        }
+        saveProgress();
+        render();
+        openSessionDrawer(session);
+      });
+
+      if (prevSession) {
+        document.getElementById('prevAreaBtn').addEventListener('click', () => openSessionDrawer(prevSession));
+      }
+      if (nextSession) {
+        document.getElementById('nextAreaBtn').addEventListener('click', () => openSessionDrawer(nextSession));
+      }
+
+      showDrawer();
+    }
+
+    function openProjectDrawer(proj) {
+      currentDrawerItem = { type: 'project', data: proj };
+      drawerTags.innerHTML = `
+        <span class="drawer-tag" style="border-color:${proj.color};color:${proj.color};font-weight:700">Proyecto transversal</span>
+        <span class="drawer-tag">${proj.spanText}</span>
+      `;
+      drawerTitle.textContent = proj.name;
+
+      drawerBody.innerHTML = `
+        <div>
+          <div class="drawer-section-label">Modalidad</div>
+          <p class="drawer-text">${proj.sub}</p>
+        </div>
+        <div>
+          <div class="drawer-section-label">Descripción</div>
+          <p class="drawer-text">${proj.description}</p>
+        </div>
+        <div>
+          <div class="drawer-section-label">Hitos en el semestre</div>
+          <ul class="drawer-list">
+            ${proj.milestones.map(m => `<li>${m}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+
+      drawerFooter.innerHTML = `
+        <span style="font-size:12px;color:var(--ink-muted)">Proyecto activo entre ${proj.spanText}</span>
+        <button class="icon-btn" id="closeFooterBtn">Cerrar</button>
+      `;
+      document.getElementById('closeFooterBtn').addEventListener('click', closeDrawer);
+      showDrawer();
+    }
+
+    function showDrawer() {
+      drawer.classList.add('open');
+      drawerBackdrop.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      drawerBackdrop.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    function render() {
+      if (activeView === 'matrix') {
+        matrixShell.classList.remove('hidden');
+        timelineView.classList.remove('active');
+        renderMatrix();
+      } else {
+        matrixShell.classList.add('hidden');
+        timelineView.classList.add('active');
+        renderTimeline();
+      }
+    }
+
+    // Event Listeners
+    document.querySelectorAll('#levelFilters .filter-btn[data-level]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeLevel = btn.dataset.level;
+        syncFilterUI();
+        render();
+      });
+    });
+
+    suraToggle.addEventListener('click', () => {
+      onlySura = !onlySura;
+      syncFilterUI();
+      render();
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      syncFilterUI();
+      render();
+    });
+
+    searchClear.addEventListener('click', () => {
+      searchQuery = '';
+      searchInput.value = '';
+      syncFilterUI();
+      render();
+    });
+
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeView = btn.dataset.view;
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === btn));
+        render();
+      });
+    });
+
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+    document.getElementById('resetFiltersBtn').addEventListener('click', () => {
+      activeLevel = 'all';
+      activeArea = 'all';
+      onlySura = false;
+      searchQuery = '';
+      searchInput.value = '';
+      syncFilterUI();
+      render();
+    });
+
+    document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+    });
+
+    // Init
+    buildAreaChips();
+    updateProgressUI();
+    syncFilterUI();
+    render();
+  </script>
+</body>
+</html>
