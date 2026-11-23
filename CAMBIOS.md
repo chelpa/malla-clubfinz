@@ -1,5 +1,9 @@
 # Cambios
 
+## 23 nov 2026 · Panel de detalle sobre la barra
+
+- `actividades.html`: el panel de detalle quedaba bajo la barra del club y tapaba el título y el botón de cerrar. Ahora va encima (z-index 49, antes 31). Marcado con `[23 nov · panel]`.
+
 ## 23 nov 2026 · Columna izquierda en celular
 
 - `malla-curricular-fae-usach-2027.html` y `actividades.html`: bajo 600px la columna fija de la izquierda pasa a ~112–118px; se ocultan el subtítulo y el conteo de sesiones (1er semestre) y el responsable (Actividades), que siguen en el panel de detalle. Marcado con `[23 nov · celular]`.
