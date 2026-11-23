@@ -1003,6 +1003,14 @@
       .matrix-shell { border: none; box-shadow: none; overflow: visible; }
       .matrix-grid { min-width: 0; width: 100%; }
     }
+    /* [23 nov · celular] columna izquierda más angosta en celular. Antes: 230px con subtítulo y conteo de sesiones */
+    @media (max-width: 600px) {
+      .matrix-grid { grid-template-columns: 112px repeat(16, minmax(64px, 1fr)); min-width: 1136px; }
+      .sticky-col { padding: 8px; }
+      .area-label-cell { gap: 6px; }
+      .area-name, .nivel-row-label { font-size: 12px; }
+      .area-sub, .area-count { display: none; }
+    }
   </style>
 </head>
 <body>

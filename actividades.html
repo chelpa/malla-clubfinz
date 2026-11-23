@@ -99,6 +99,8 @@ aside .body{padding:14px 18px;overflow:auto;flex:1}
 .toast.on{opacity:1}
 .note{font-size:13px;color:var(--muted);margin-top:14px}
 @media (max-width:600px){input[type=search]{width:100%}#hitos{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}#hitos .chip{flex:none}.row{grid-template-columns:70px minmax(0,1fr)}.row .gc{grid-column:2;justify-self:start}.day{min-height:70px}.ev{font-size:0;height:8px;padding:0}.bar small{display:none}}
+/* [23 nov · celular] columna izquierda más angosta en celular. Antes: 230 a 320px con responsable */
+@media (max-width:600px){.grid{grid-template-columns:118px repeat(32,minmax(24px,1fr));min-width:880px}.name{padding:6px 8px}.name .r{display:none}.name .t{font-size:12.5px;line-height:1.25}.name .id{display:block;margin:0}.cell{min-height:40px}}
 @media (prefers-reduced-motion:reduce){aside,.shade,.toast{transition:none}}
 @media print{.bar,.controls,aside,.shade{display:none}}
 </style>
