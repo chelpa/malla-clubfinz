@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malla flexible 2027 · Club de Finanzas FAE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Sistema del club: editorial oscuro, negro + dorado. Sin framework, igual que clubfinanzasfae.cl. */
+:root {
+  --bg: #0B0B0A; --surface: #151412; --surface-2: #1D1B17; --surface-3: #24221D;
+  --line: rgba(243, 241, 234, 0.10); --line-2: rgba(243, 241, 234, 0.18);
+  --ink: #F3F1EA; --muted: #A6A194; --gold: #C9A84C; --gold-soft: rgba(201, 168, 76, 0.14);
+  --ok: #7CC49A; --warn: #E2B457; --teal: #4FD1C5;
+  --display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: var(--gold); text-underline-offset: 3px; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+header.top { padding: 44px 0 30px; border-bottom: 1px solid var(--line);
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px; background-position: -1px -1px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(32px, 6vw, 54px); line-height: 1.06; margin: 0 0 14px; text-wrap: balance; max-width: 18ch; }
+.lede { color: var(--muted); max-width: 64ch; margin: 0; font-size: 16.5px; }
+.ver { display: inline-block; margin-top: 16px; font-family: var(--mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; }
+.how { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); margin-top: 28px; }
+.how div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.how b { display: block; font-family: var(--display); font-size: 24px; margin-bottom: 4px; }
+.how span { color: var(--muted); font-size: 14px; }
+
+nav.sections { position: sticky; top: 0; z-index: 30; background: rgba(11, 11, 10, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+nav.sections .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-top: 8px; padding-bottom: 8px; }
+nav.sections .wrap::-webkit-scrollbar { display: none; }
+nav.sections a { flex: none; font-family: var(--mono); font-size: 12px; color: var(--muted); text-decoration: none; padding: 8px 12px; border-radius: 999px; border: 1px solid transparent; }
+nav.sections a:hover { color: var(--ink); border-color: var(--line); }
+
+section { padding: 44px 0 8px; }
+h2 { font-family: var(--display); font-weight: 600; font-size: clamp(26px, 4vw, 34px); margin: 0 0 6px; }
+.sec-lede { color: var(--muted); margin: 0 0 22px; max-width: 70ch; }
+.label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.tag { font-style: normal; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--bg); background: var(--gold); border-radius: 999px; padding: 1px 6px; white-space: nowrap; vertical-align: 1px; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { background: transparent; color: var(--muted); border: 0; border-right: 1px solid var(--line); padding: 8px 14px; cursor: pointer; font-size: 14px; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--gold-soft); color: var(--ink); }
+.btn { background: var(--gold); color: var(--bg); border: 0; border-radius: 8px; padding: 9px 14px; font-weight: 500; font-size: 14px; cursor: pointer; }
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.btn.ghost:hover { color: var(--ink); }
+.btn.danger { background: transparent; color: #E58C7A; border: 1px solid rgba(229,140,122,0.5); }
+
+/* Ruta */
+.route-ctl { display: flex; flex-wrap: wrap; gap: 16px 26px; align-items: flex-end; margin-bottom: 18px; }
+.ctl { display: flex; flex-direction: column; gap: 6px; }
+.advice { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 14.5px; }
+.advice[hidden] { display: none; }
+.route { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+.sem { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; position: relative; }
+.sem .when { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+.sem h3 { margin: 0; font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.lvl { font-family: var(--mono); font-size: 11px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: var(--bg); }
+.lv1 { background: #8C8167; color: var(--ink); } .lv2 { background: #BFA463; } .lv3 { background: var(--gold); } .lv4 { background: var(--teal); }
+.lvx { background: var(--surface-3); color: var(--muted); border: 1px solid var(--line); }
+.sem p { margin: 0; color: var(--muted); font-size: 13.5px; }
+.sem .mods { display: flex; flex-wrap: wrap; gap: 4px; }
+.sem .mods span { font-size: 11.5px; background: var(--surface-2); border: 1px solid var(--line); border-left: 3px solid var(--c); border-radius: 5px; padding: 2px 6px; }
+.sem .hito { font-size: 13px; color: var(--ink); border-top: 1px dashed var(--line); padding-top: 8px; }
+.sem .hito b { color: var(--gold); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; display: block; }
+.sem .comp { font-size: 12.5px; color: var(--warn); }
+.sem.quiet { background: transparent; border-style: dashed; }
+
+/* Mapa */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip { font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.chip i { width: 8px; height: 8px; border-radius: 50%; }
+.chip[aria-pressed="false"] { color: var(--muted); opacity: 0.5; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--line-2); display: inline-block; }
+.map-wrap { display: grid; grid-template-columns: 1fr 330px; gap: 16px; align-items: start; }
+.map { display: grid; grid-template-columns: 150px repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+.map .mh { background: var(--surface-2); padding: 10px; border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); }
+.map .mh b { display: block; font-size: 13px; }
+.map .mh small { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+.map .corner { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.map .ma { padding: 10px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 600; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.map .ma i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; margin-right: 6px; vertical-align: -1px; }
+.map .mc { padding: 6px; border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: 5px; min-height: 52px; }
+.map .row-hidden { display: none; }
+.mod { text-align: left; background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); border-left: 3px solid var(--c); border-radius: 7px; padding: 6px 8px; cursor: pointer; font-size: 12.5px; line-height: 1.3; display: flex; flex-direction: column; gap: 2px; width: 100%; transition: border-color 0.12s, background 0.12s; }
+.mod small { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.mod:hover { background: var(--surface-3); }
+.mod.done { background: rgba(124,196,154,0.12); }
+.mod.done::after { content: "✓ aprobado"; font-family: var(--mono); font-size: 10px; color: var(--ok); }
+.mod.locked { opacity: 0.55; }
+.mod.sel { border-color: var(--ink); background: var(--surface-3); opacity: 1; }
+.mod.pre { box-shadow: 0 0 0 2px var(--gold); opacity: 1; }
+.mod.unl { box-shadow: 0 0 0 2px var(--teal); opacity: 1; }
+.detail { position: sticky; top: 72px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.detail h3 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; }
+.detail .meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.detail .meta span { font-family: var(--mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; }
+.detail p { margin: 0; font-size: 14px; color: var(--muted); }
+.detail dl { margin: 0; display: grid; gap: 8px; }
+.detail dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.detail dd { margin: 2px 0 0; font-size: 14px; }
+.links { display: flex; flex-wrap: wrap; gap: 5px; }
+.links button { font-size: 12px; background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; cursor: pointer; }
+.links button.pre { border-color: var(--gold); } .links button.unl { border-color: var(--teal); }
+.links em { font-style: normal; font-size: 13px; color: var(--muted); }
+.detail .empty { color: var(--muted); font-size: 14px; }
+
+/* Pasaporte */
+.pass { display: grid; gap: 14px; grid-template-columns: 1.1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.card h3 { margin: 0 0 10px; font-size: 15px; font-weight: 600; }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.kpis div { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; }
+.kpis b { display: block; font-family: var(--display); font-size: 26px; line-height: 1.1; }
+.kpis span { font-size: 12px; color: var(--muted); }
+.bars { display: flex; flex-direction: column; gap: 8px; }
+.barrow { display: grid; grid-template-columns: 150px 1fr 64px; gap: 10px; align-items: center; font-size: 13px; }
+.barrow .track { height: 8px; background: var(--surface-3); border-radius: 999px; overflow: hidden; }
+.barrow .fill { height: 100%; background: var(--c, var(--gold)); border-radius: 999px; }
+.barrow .num { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
+.barrow .ok { color: var(--ok); }
+.elig { margin-top: 14px; padding: 10px 12px; border-radius: 8px; font-size: 14px; border: 1px solid var(--line); }
+.elig.yes { border-color: rgba(124,196,154,0.5); background: rgba(124,196,154,0.08); }
+.avail { display: flex; flex-direction: column; gap: 6px; max-height: 360px; overflow: auto; }
+.avail button { text-align: left; background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); border-left: 3px solid var(--c); border-radius: 7px; padding: 7px 10px; cursor: pointer; font-size: 13px; display: flex; justify-content: space-between; gap: 10px; }
+.avail button small { font-family: var(--mono); font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }
+.toast { font-family: var(--mono); font-size: 12px; color: var(--ok); }
+textarea.copybox { width: 100%; min-height: 140px; margin-top: 10px; background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px; font-family: var(--mono); font-size: 12px; }
+
+/* Semestre tipo */
+.weeks-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.weeks { display: grid; grid-template-columns: 120px repeat(16, minmax(74px, 1fr)); min-width: 1300px; }
+.weeks .wh { padding: 8px 4px; text-align: center; font-family: var(--mono); border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); background: var(--surface-2); }
+.weeks .wh b { display: block; font-size: 12px; color: var(--gold); font-weight: 500; }
+.weeks .wh span { font-size: 10px; color: var(--muted); }
+.weeks .wl { padding: 8px 10px; font-size: 12px; font-weight: 600; border-bottom: 1px solid var(--line); display: flex; align-items: center; background: var(--surface); }
+.weeks .band { grid-column: span 1; border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); padding: 6px 4px; }
+.weeks .lvband { margin: 6px 3px; border-radius: 6px; font-family: var(--mono); font-size: 11px; font-weight: 600; text-align: center; padding: 6px 4px; color: var(--bg); }
+.weeks .wc { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); padding: 5px 4px; display: flex; flex-direction: column; gap: 3px; min-height: 40px; }
+.weeks .wc span { font-size: 10.5px; line-height: 1.2; background: var(--surface-2); border-left: 3px solid var(--c); border-radius: 4px; padding: 2px 4px; }
+.note { font-size: 13px; color: var(--muted); border-left: 2px solid var(--line); padding-left: 12px; margin: 14px 0 0; }
+
+/* Meta */
+.tbl { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--surface-2); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 500; }
+td.goal { color: var(--gold); }
+
+footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 20px 0 40px; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 920px) {
+  .map-wrap { grid-template-columns: 1fr; }
+  .detail { position: static; }
+  .pass { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  .how { grid-template-columns: 1fr; }
+  .map { grid-template-columns: 1fr; }
+  .map .corner, .map .mh { display: none; }
+  .map .ma { border-bottom: 0; padding-bottom: 2px; background: var(--surface-2); }
+  .map .mc { border-left: 0; min-height: 0; }
+  .map .mc:empty { display: none; }
+  .map .mc[data-lv]::before { content: attr(data-lv); font-family: var(--mono); font-size: 10px; color: var(--muted); }
+  .map .detail { margin: 4px 6px 10px; border-color: var(--line-2); }
+  .barrow { grid-template-columns: 110px 1fr 56px; }
+  .kpis b { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Club de Finanzas FAE USACH · Formación Académica · Propuesta v3</p>
+    <h1>Una malla, dos velocidades</h1>
+    <p class="lede">La formación del club pensada para los 5 años de la carrera: hazla completa en un año si buscas tu práctica pronto, o a tu ritmo, un nivel por año. Arma tu ruta, explora los módulos y lleva tu pasaporte.</p>
+    <div class="how">
+      <div><b>4 niveles</b><span>Fundamentos, Aplicado, Especialización y Competir. Cada nivel se cierra con una prueba o un entregable.</span></div>
+      <div><b>2 ritmos</b><span>Intensivo, con los 4 niveles en 2 semestres. Flexible, con un nivel por año a lo largo de la carrera.</span></div>
+      <div><b>1 pasaporte</b><span>Cada módulo aprobado suma al IPA y abre el cupo para competir.</span></div>
+    </div>
+    <span class="ver">Propuesta v3 · 22 nov 2026 · la malla v2 queda sin cambios</span>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Secciones">
+  <div class="wrap">
+    <a href="#ruta">Tu ruta</a>
+    <a href="#mapa">Mapa de la malla</a>
+    <a href="#pasaporte">Mi pasaporte</a>
+    <a href="#semestre">Semestre tipo</a>
+    <a href="#meta">La meta</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section id="ruta">
+    <h2>Arma tu ruta</h2>
+    <p class="sec-lede">Elige en qué año de la carrera estarás en 2027 y a qué ritmo quieres avanzar. La ruta muestra qué nivel te toca cada semestre y el hito de carrera de cada año.</p>
+    <div class="route-ctl">
+      <div class="ctl"><span class="label">Año de carrera en 2027</span><div class="seg" id="c-year" role="group" aria-label="Año de carrera"></div></div>
+      <div class="ctl"><span class="label">Ritmo</span><div class="seg" id="c-pace" role="group" aria-label="Ritmo">
+        <button type="button" data-v="flex" aria-pressed="true">Flexible</button>
+        <button type="button" data-v="int" aria-pressed="false">Intensivo (1 año)</button>
+      </div></div>
+      <div class="ctl"><span class="label">Empiezas en</span><div class="seg" id="c-start" role="group" aria-label="Semestre de inicio">
+        <button type="button" data-v="1" aria-pressed="true">1er semestre 2027</button>
+        <button type="button" data-v="2" aria-pressed="false">2º semestre 2027</button>
+      </div></div>
+    </div>
+    <div class="advice" id="advice" hidden></div>
+    <div class="route" id="route"></div>
+  </section>
+
+  <section id="mapa">
+    <h2>Mapa de la malla</h2>
+    <p class="sec-lede">Cada tarjeta es un módulo. Elige uno para ver qué aprendes, qué entregas y qué necesitas antes. Sus prerrequisitos se marcan en dorado y lo que desbloquea, en turquesa.</p>
+    <div class="filters" id="filters"></div>
+    <div class="legend">
+      <span><i style="background:rgba(124,196,154,0.25)"></i>Aprobado</span>
+      <span><i style="background:var(--surface-2)"></i>Disponible</span>
+      <span><i style="background:var(--surface-2);opacity:.5"></i>Falta un prerrequisito</span>
+      <span><i style="box-shadow:0 0 0 2px var(--gold)"></i>Prerrequisito</span>
+      <span><i style="box-shadow:0 0 0 2px var(--teal)"></i>Lo desbloquea</span>
+    </div>
+    <div class="map-wrap">
+      <div class="map" id="map" aria-label="Módulos por área y nivel"></div>
+      <aside class="detail" id="detail" aria-live="polite"><p class="empty">Elige un módulo del mapa para ver su detalle.</p></aside>
+    </div>
+  </section>
+
+  <section id="pasaporte">
+    <h2>Mi pasaporte</h2>
+    <p class="sec-lede">Marca los módulos que apruebes, desde el mapa o desde la lista de disponibles. Tu avance se guarda solo en este navegador y no incluye datos personales.</p>
+    <div class="pass">
+      <div class="card">
+        <div class="kpis" id="kpis"></div>
+        <h3>Avance por nivel</h3>
+        <div class="bars" id="bars-lv"></div>
+        <h3 style="margin-top:16px">Avance por área</h3>
+        <div class="bars" id="bars-ar"></div>
+        <div class="elig" id="elig"></div>
+        <div class="tools">
+          <button type="button" class="btn" id="copy">Copiar resumen</button>
+          <button type="button" class="btn danger" id="reset">Borrar mi avance</button>
+          <span class="toast" id="toast" role="status"></span>
+        </div>
+        <textarea class="copybox" id="copybox" hidden readonly aria-label="Resumen para copiar"></textarea>
+      </div>
+      <div class="card">
+        <h3>Puedes tomar ahora</h3>
+        <p style="margin:0 0 10px;color:var(--muted);font-size:13.5px">Módulos con los prerrequisitos cumplidos, en orden de nivel y semana. Toca uno para marcarlo como aprobado.</p>
+        <div class="avail" id="avail"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="semestre">
+    <h2>Semestre tipo</h2>
+    <p class="sec-lede">Cada semestre se dicta la misma secuencia. Quien va en intensivo toma todo; quien va en flexible entra solo a las semanas de su nivel. El nivel 4 corre todo el año en paralelo.</p>
+    <div class="weeks-scroll"><div class="weeks" id="weeks"></div></div>
+    <p class="note" id="weeks-note"></p>
+  </section>
+
+  <section id="meta">
+    <h2>La meta: el mejor club de finanzas de Chile</h2>
+    <p class="sec-lede">La vara es la UAI, que ganó el CFA Research Challenge en Chile cuatro años seguidos. El club se mide por lo que logran sus miembros, no por la cantidad de talleres. Las metas son una propuesta para la directiva.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Indicador</th><th>Punto de partida</th><th>Meta 2027</th></tr></thead>
+      <tbody>
+        <tr><td>Equipos en competencias</td><td>La USACH no aparece en las listas públicas de 2024 y 2025</td><td class="goal">3 equipos: Research, Ethics y Trading</td></tr>
+        <tr><td>Miembros que completan N2</td><td>Sin datos</td><td class="goal">40, una de cada cuatro personas de las cerca de 160 de la encuesta</td></tr>
+        <tr><td>Preparación para postular (encuesta, de 1 a 5)</td><td>Línea base de noviembre de 2026</td><td class="goal">Subir un punto el promedio</td></tr>
+        <tr><td>Miembros con práctica o trabajo en finanzas</td><td>Se pregunta en la encuesta</td><td class="goal">Medir de nuevo en noviembre de 2027</td></tr>
+        <tr><td>Instituciones que colaboran</td><td>Deloitte (agosto de 2026) y SURA (noviembre de 2026)</td><td class="goal">8 al año, la meta de 4 eventos por semestre</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Fechas de competencias inferidas de ediciones anteriores, por confirmar con CFA Society Chile y Bloomberg. Inicio de clases supuesto: lunes 29 de marzo de 2027.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Malla flexible · propuesta v3 · 22 nov 2026 · Dirección de Formación Académica, Club de Finanzas FAE USACH. Se basa en la malla v2, el estudio de mercado y la visita a SURA. Los datos de la malla están en un solo objeto JSON dentro de esta página.</div>
+</footer>
+
+<script id="malla-data" type="application/json">
+{
+  "version": "v3-propuesta",
+  "inicioS1": "2027-03-29",
+  "niveles": [
+    { "id": 1, "nombre": "Fundamentos", "corto": "N1", "semanas": [1, 5], "oferta": "Cada semestre", "anoIdeal": 1 },
+    { "id": 2, "nombre": "Aplicado", "corto": "N2", "semanas": [6, 11], "oferta": "Cada semestre", "anoIdeal": 2 },
+    { "id": 3, "nombre": "Especialización", "corto": "N3", "semanas": [12, 16], "oferta": "Cada semestre", "anoIdeal": 3 },
+    { "id": 4, "nombre": "Competir y salir al mercado", "corto": "N4", "semanas": null, "oferta": "Todo el año, grupo por IPA", "anoIdeal": 4 }
+  ],
+  "areas": [
+    { "id": "bbg", "nombre": "Bloomberg y mercados", "color": "#E0A93B" },
+    { "id": "quant", "nombre": "Quant: R y Python", "color": "#6FA8DC" },
+    { "id": "val", "nombre": "Valoración y research", "color": "#7CC49A" },
+    { "id": "eti", "nombre": "Ética y regulación", "color": "#DE8F8F" },
+    { "id": "car", "nombre": "Carrera", "color": "#B9A0E6" },
+    { "id": "ia", "nombre": "Agentes de IA", "color": "#4FD1C5", "nuevo": true },
+    { "id": "hb", "nombre": "Habilidades blandas", "color": "#F4A261", "nuevo": true }
+  ],
+  "modulos": [
+    { "id": "e1", "nombre": "Código y Estándares CFA", "area": "eti", "nivel": 1, "semana": 1, "formato": "Bloque de 30 min", "desc": "Deberes con clientes, empleador y mercado, con ejemplos.", "entregable": "", "tamano": null, "pre": [] },
+    { "id": "bbg101", "nombre": "Terminal 101", "area": "bbg", "nivel": 1, "semana": 2, "formato": "Taller", "desc": "Teclado, paneles, búsqueda de valores, menús y ayuda de la terminal.", "entregable": "Capturas de 10 funciones", "tamano": "simple", "pre": [] },
+    { "id": "hb1", "nombre": "Pitch de 60 segundos y networking", "area": "hb", "nivel": 1, "semana": 2, "formato": "Bloque de 30 min", "desc": "Presentarse en un minuto y conversar con profesionales en visitas y eventos.", "entregable": "Pitch de 60 segundos", "tamano": "simple", "pre": [], "nuevo": true },
+    { "id": "r1", "nombre": "R 1: primeros pasos", "area": "quant", "nivel": 1, "semana": 3, "formato": "Taller", "desc": "R y RStudio, vectores y data frames, con casos de VAN y retorno de portafolio.", "entregable": "Ejercicios propios", "tamano": "simple", "pre": [] },
+    { "id": "c1", "nombre": "CV y LinkedIn para finanzas", "area": "car", "nivel": 1, "semana": 3, "formato": "Bloque de 30 min", "desc": "Cómo se lee un CV en finanzas y qué poner en LinkedIn.", "entregable": "CV revisado", "tamano": "simple", "pre": [] },
+    { "id": "xl", "nombre": "Datos a Excel", "area": "bbg", "nivel": 1, "semana": 4, "formato": "Taller", "desc": "Complemento de Excel y fórmulas de Bloomberg para bajar series.", "entregable": "Planilla con precios históricos de 3 acciones", "tamano": "simple", "pre": ["bbg101"] },
+    { "id": "py1", "nombre": "Python 1: notebooks y pandas", "area": "quant", "nivel": 1, "semana": 4, "formato": "Sesión extra", "desc": "Notebooks, pandas y lectura de precios.", "entregable": "El ejercicio de Excel hecho en Python", "tamano": "simple", "pre": [] },
+    { "id": "md", "nombre": "Mesas de dinero y riesgos", "area": "bbg", "nivel": 1, "semana": 5, "formato": "Taller", "desc": "Mesas de banco, corredora, AFP, empresa y Banco Central; riesgos de mercado, liquidez y contraparte.", "entregable": "Prueba de salida N1 (30 min)", "tamano": null, "pre": ["xl"], "cierra": true },
+    { "id": "ia1", "nombre": "Qué es un agente de IA", "area": "ia", "nivel": 1, "semana": 5, "formato": "Bloque de 30 min", "desc": "Un modelo de lenguaje que usa herramientas y datos para cumplir una tarea. Casos en asesoría, research y operaciones, como los que mostró SURA.", "entregable": "", "tamano": null, "pre": [], "nuevo": true },
+
+    { "id": "r2", "nombre": "R 2: importar y manipular datos", "area": "quant", "nivel": 2, "semana": 6, "formato": "Taller", "desc": "dplyr y tidyr sobre bases reales.", "entregable": "Limpiar y resumir una base pública", "tamano": "estandar", "pre": ["r1"] },
+    { "id": "hb2", "nombre": "Comunicar con datos", "area": "hb", "nivel": 2, "semana": 6, "formato": "Bloque de 30 min", "desc": "Una tesis en 3 minutos con un solo gráfico. Se aplica en el Market Wrap.", "entregable": "", "tamano": null, "pre": ["hb1"], "nuevo": true },
+    { "id": "mac", "nombre": "Macro y tasas", "area": "bbg", "nivel": 2, "semana": 7, "formato": "Taller", "desc": "Calendario económico, Fed, expectativas de TPM y mercado monetario.", "entregable": "Primer Market Wrap", "tamano": "simple", "pre": ["bbg101"] },
+    { "id": "val1", "nombre": "Modelo de tres estados financieros", "area": "val", "nivel": 2, "semana": 7, "formato": "Sesión extra", "desc": "Resultados, balance y flujo de caja conectados, para una empresa chilena.", "entregable": "Modelo en Excel", "tamano": "estandar", "pre": ["xl"] },
+    { "id": "rf", "nombre": "Renta fija", "area": "bbg", "nivel": 2, "semana": 8, "formato": "Taller", "desc": "Bonos, mercado chileno, licitaciones del Banco Central, precio, TIR y retorno total.", "entregable": "Valorizar un bono en Excel y contrastar con YAS", "tamano": "estandar", "pre": ["xl"] },
+    { "id": "e2", "nombre": "Caso STF Capital y Factop", "area": "eti", "nivel": 2, "semana": 8, "formato": "Bloque de 30 min", "desc": "Conflictos de interés y deber de información en casos chilenos.", "entregable": "", "tamano": null, "pre": ["e1"] },
+    { "id": "fx", "nombre": "FX", "area": "bbg", "nivel": 2, "semana": 9, "formato": "Taller", "desc": "Paridades, dólar observado, spot y forward.", "entregable": "Nota FX del Market Wrap con forward en puntos", "tamano": "estandar", "pre": ["mac"] },
+    { "id": "c2", "nombre": "Calendario de postulaciones", "area": "car", "nivel": 2, "semana": 9, "formato": "Bloque de 30 min", "desc": "Prácticas, programas trainee y preguntas técnicas típicas.", "entregable": "", "tamano": null, "pre": ["c1"] },
+    { "id": "hb3", "nombre": "Asesoría y venta consultiva", "area": "hb", "nivel": 2, "semana": 9, "formato": "Sesión", "desc": "Role-play de asesor y cliente: presentar una cartera según el perfil del cliente, como lo hace SURA.", "entregable": "Presentar una cartera a un cliente", "tamano": "estandar", "pre": ["hb2"], "nuevo": true },
+    { "id": "r3", "nombre": "R 3: gráficos y R Markdown", "area": "quant", "nivel": 2, "semana": 10, "formato": "Taller", "desc": "ggplot2 e informes reproducibles.", "entregable": "Market Wrap hecho en R Markdown", "tamano": "estandar", "pre": ["r2"] },
+    { "id": "py2", "nombre": "Python 2: APIs, web scraping y SQL", "area": "quant", "nivel": 2, "semana": 10, "formato": "Sesión extra", "desc": "Datos de mercado por API y web scraping; SQL básico.", "entregable": "Base de precios armada con código", "tamano": "estandar", "pre": ["py1"] },
+    { "id": "eq", "nombre": "Acciones", "area": "bbg", "nivel": 2, "semana": 11, "formato": "Taller", "desc": "Monitor de mercado, estados financieros, beta, WACC y recomendaciones.", "entregable": "Ficha de una acción (integrador N2)", "tamano": "estandar", "pre": ["xl"], "cierra": true },
+    { "id": "val2", "nombre": "DCF y múltiplos", "area": "val", "nivel": 2, "semana": 11, "formato": "Sesión extra", "desc": "Flujos descontados, WACC y comparables.", "entregable": "Valoración de una acción", "tamano": "estandar", "pre": ["val1"] },
+    { "id": "mw", "nombre": "Market Wrap semanal", "area": "bbg", "nivel": 2, "semanas": [7, 16], "formato": "Proyecto", "desc": "Resumen semanal de mercados. Cada taller de Bloomberg aporta una sección; bilingüe desde S10.", "entregable": "Una sección del Market Wrap", "tamano": "simple", "pre": ["mac"] },
+
+    { "id": "r4", "nombre": "R 4: retornos, regresión y beta", "area": "quant", "nivel": 3, "semana": 12, "formato": "Taller", "desc": "tidyquant, regresión lineal y CAPM.", "entregable": "Beta de una acción chilena en R contra la terminal", "tamano": "compleja", "pre": ["r3"] },
+    { "id": "e3", "nombre": "Marco CMF y CAMV", "area": "eti", "nivel": 3, "semana": 12, "formato": "Bloque de 30 min", "desc": "Qué exige la ley para trabajar en intermediación de valores.", "entregable": "", "tamano": null, "pre": ["e2"] },
+    { "id": "ia2", "nombre": "Construir un agente", "area": "ia", "nivel": 3, "semana": 12, "formato": "Sesión extra", "desc": "Python, datos de precios por API y un modelo de lenguaje.", "entregable": "Un agente que responde con datos reales", "tamano": "estandar", "pre": ["py2", "ia1"], "nuevo": true },
+    { "id": "trd", "nombre": "Mini-challenge de trading", "area": "bbg", "nivel": 3, "semanas": [12, 16], "formato": "Proyecto", "desc": "5 semanas con un portafolio virtual, en el formato del Global Trading Challenge.", "entregable": "Portafolio y plan de trading", "tamano": "estandar", "pre": ["eq"] },
+    { "id": "der", "nombre": "Derivados", "area": "bbg", "nivel": 3, "semana": 13, "formato": "Taller", "desc": "Usos, mercado chileno y coberturas de exportador e importador.", "entregable": "Comparar forward, put y collar", "tamano": "estandar", "pre": ["fx"] },
+    { "id": "ia3", "nombre": "IA responsable", "area": "ia", "nivel": 3, "semana": 13, "formato": "Bloque de 30 min", "desc": "Errores y alucinaciones, privacidad de datos de clientes y regulación.", "entregable": "", "tamano": null, "pre": ["ia1"], "nuevo": true },
+    { "id": "cu", "nombre": "Cobre y commodities", "area": "bbg", "nivel": 3, "semana": 14, "formato": "Taller", "desc": "COMEX y LME, curva futura, riesgo de base y hedge ratio.", "entregable": "Nota de cobre con curva futura y hedge ratio", "tamano": "compleja", "pre": ["der"] },
+    { "id": "c3", "nombre": "Entrevistas simuladas", "area": "car", "nivel": 3, "semana": 14, "formato": "Sesión", "desc": "Entrevistas técnicas y de comportamiento con alumni.", "entregable": "", "tamano": null, "pre": ["c2"] },
+    { "id": "r5", "nombre": "R 5: Monte Carlo", "area": "quant", "nivel": 3, "semana": 15, "formato": "Taller", "desc": "Loops, funciones, distribución normal y simulación.", "entregable": "Simular trayectorias de un precio", "tamano": "estandar", "pre": ["r4"] },
+    { "id": "hb4", "nombre": "Negociación y trabajo en equipo", "area": "hb", "nivel": 3, "semana": 15, "formato": "Bloque de 30 min", "desc": "Manejo de objeciones y preguntas difíciles antes de una defensa.", "entregable": "", "tamano": null, "pre": ["hb3"], "nuevo": true },
+    { "id": "demo", "nombre": "Demo day", "area": "car", "nivel": 3, "semana": 16, "formato": "Evento", "desc": "Cierre del semestre: se presentan los trabajos y se eligen los equipos de competencia.", "entregable": "Presentar un trabajo del semestre", "tamano": null, "pre": [], "cierra": true },
+
+    { "id": "rc", "nombre": "Informe de research para el CFA Research Challenge", "area": "val", "nivel": 4, "formato": "Laboratorio", "desc": "Talleres V1 a V6: informe de una empresa con recomendación y defensa oral. Competencia de septiembre a noviembre (por confirmar).", "entregable": "Informe y defensa ante un panel", "tamano": "compleja", "pre": ["val2", "eq"] },
+    { "id": "eth", "nombre": "Equipo Ethics Challenge", "area": "eti", "nivel": 4, "formato": "Laboratorio", "desc": "Equipo de 3 a 5 con profesor asesor. Final cerca de julio (por confirmar).", "entregable": "Análisis del caso ante jurado", "tamano": "compleja", "pre": ["e3"] },
+    { "id": "gtc", "nombre": "Bloomberg Global Trading Challenge", "area": "bbg", "nivel": 4, "formato": "Laboratorio", "desc": "5 semanas con un portafolio virtual de US$1 millón. Octubre a noviembre (por confirmar).", "entregable": "Portafolio en competencia", "tamano": "compleja", "pre": ["trd"] },
+    { "id": "iap", "nombre": "Proyecto: agente del club", "area": "ia", "nivel": 4, "formato": "Proyecto", "desc": "Un asistente que arma el borrador del Market Wrap o resume hechos esenciales para el informe de research.", "entregable": "Demo en el Demo day", "tamano": "compleja", "pre": ["ia2"], "nuevo": true },
+    { "id": "prac", "nombre": "Preparación de la práctica profesional", "area": "car", "nivel": 4, "formato": "Proyecto", "desc": "CV y portafolio revisados, postulaciones y seguimiento.", "entregable": "Postulación enviada", "tamano": "estandar", "pre": ["c3"] },
+    { "id": "ment", "nombre": "Mentoría a miembros nuevos", "area": "hb", "nivel": 4, "formato": "Proyecto", "desc": "Acompañar a un miembro de N1 durante un semestre.", "entregable": "Un semestre de mentoría", "tamano": "estandar", "pre": ["hb4"], "nuevo": true },
+    { "id": "camv", "nombre": "Grupo de estudio CAMV (opcional)", "area": "eti", "nivel": 4, "formato": "Grupo de estudio", "desc": "Acreditación obligatoria para trabajar en intermediación. El examen cuesta cerca de 7,5 UF y lo paga quien lo rinde.", "entregable": "", "tamano": null, "pre": ["e3"] }
+  ],
+  "hitos": [
+    { "ano": 1, "texto": "Conocer las áreas de las finanzas" },
+    { "ano": 2, "texto": "Inglés y Excel con macros, que piden casi todos los avisos revisados" },
+    { "ano": 3, "texto": "Primeras postulaciones, con piezas del pasaporte en el CV" },
+    { "ano": 4, "texto": "Práctica profesional: BTG pide 6 meses presenciales y el Banco Central abre su programa en octubre" },
+    { "ano": 5, "texto": "Programas trainee y primer empleo" }
+  ]
+}
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var D = JSON.parse(document.getElementById('malla-data').textContent);
+  var DAY = 86400000;
+  var MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var PTS = { simple: 5, estandar: 10, compleja: 15 };
+  var TAM = { simple: 'Simple', estandar: 'Estándar', compleja: 'Compleja' };
+  var KEY = 'malla-flex-pasaporte-v3';
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  var AREA = {}; D.areas.forEach(function (a) { AREA[a.id] = a; });
+  var LV = {}; D.niveles.forEach(function (l) { LV[l.id] = l; });
+  var MOD = {}; D.modulos.forEach(function (m) { MOD[m.id] = m; m.unl = []; });
+  D.modulos.forEach(function (m) { m.pre.forEach(function (p) { if (MOD[p]) MOD[p].unl.push(m.id); }); });
+
+  var s1 = (function () { var a = D.inicioS1.split('-').map(Number); return Date.UTC(a[0], a[1] - 1, a[2]); })();
+  function weekDate(n) { var d = new Date(s1 + 7 * (n - 1) * DAY); return d.getUTCDate() + ' ' + MES[d.getUTCMonth()]; }
+  function whenTxt(m) {
+    if (m.semana) return 'S' + m.semana;
+    if (m.semanas) return 'S' + m.semanas[0] + '–S' + m.semanas[1];
+    return 'Todo el año';
+  }
+  function sortKey(m) { return m.nivel * 100 + (m.semana || (m.semanas ? m.semanas[0] : 50)); }
+
+  /* ---------- Pasaporte ---------- */
+  var done = {};
+  try { (JSON.parse(localStorage.getItem(KEY) || '[]') || []).forEach(function (id) { if (MOD[id]) done[id] = true; }); } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(Object.keys(done))); } catch (e) {} }
+  function available(m) { return m.pre.every(function (p) { return done[p]; }); }
+  function setDone(id, v) { if (v) done[id] = true; else delete done[id]; save(); refresh(); }
+
+  /* ---------- Ruta ---------- */
+  var state = { year: 1, pace: 'flex', start: 1, sel: null, areas: {} };
+  D.areas.forEach(function (a) { state.areas[a.id] = true; });
+
+  var yearSeg = document.getElementById('c-year');
+  yearSeg.innerHTML = [1, 2, 3, 4, 5].map(function (y) { return '<button type="button" data-v="' + y + '" aria-pressed="' + (y === 1) + '">' + y + '°</button>'; }).join('');
+  function seg(el, key, num) {
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      state[key] = num ? Number(b.dataset.v) : b.dataset.v;
+      el.querySelectorAll('button').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+      renderRoute();
+    });
+  }
+  seg(yearSeg, 'year', true);
+  seg(document.getElementById('c-pace'), 'pace', false);
+  seg(document.getElementById('c-start'), 'start', true);
+
+  function semLabel(idx) {
+    var absolute = (state.start - 1) + idx;          // 0 = 1er sem 2027
+    var calYear = 2027 + Math.floor(absolute / 2);
+    var half = absolute % 2 === 0 ? '1er semestre' : '2º semestre';
+    var carYear = state.year + Math.floor(absolute / 2);
+    return { txt: half + ' ' + calYear, car: carYear, half: absolute % 2 === 0 ? 1 : 2 };
+  }
+  function modsOfLevel(l) { return D.modulos.filter(function (m) { return m.nivel === l; }).sort(function (a, b) { return sortKey(a) - sortKey(b); }); }
+  function compTxt(half) { return half === 2 ? 'Research Challenge (sep–nov) y Global Trading Challenge (oct–nov), por confirmar' : 'Ethics Challenge, final cerca de julio, por confirmar'; }
+
+  function buildRoute() {
+    var out = [], i, info;
+    if (state.pace === 'int') {
+      info = semLabel(0); out.push({ info: info, levels: [1, 2, 3], kind: 'level' });
+      info = semLabel(1); out.push({ info: info, levels: [4], kind: 'level' });
+      var k = 2;
+      while (true) { info = semLabel(k); if (info.car > 5) break; out.push({ info: info, kind: 'mentor' }); k++; if (k > 12) break; }
+      return mergeMentor(out);
+    }
+    var queue = [1, 2, 3, 4], yearUsed = {}, n4Started = false, n4Cont = false;
+    for (i = 0; i < 10; i++) {
+      info = semLabel(i);
+      if (info.car > 5) break;
+      var y = info.car;
+      if (n4Cont) { out.push({ info: info, levels: [4], kind: 'n4cont' }); n4Cont = false; continue; }
+      if (!queue.length) { out.push({ info: info, kind: 'mentor' }); continue; }
+      var L = queue[0], ideal = Math.min(y, 4);
+      if (L < ideal) { queue.shift(); out.push({ info: info, levels: [L], kind: 'level', behind: true }); if (L === 4) n4Cont = true; continue; }
+      if (L === ideal && !yearUsed[y]) { queue.shift(); yearUsed[y] = true; out.push({ info: info, levels: [L], kind: 'level' }); if (L === 4) n4Cont = true; continue; }
+      out.push({ info: info, kind: 'quiet' });
+    }
+    out.unfinished = queue.length > 0;
+    return mergeMentor(out);
+  }
+  function mergeMentor(list) {
+    var res = [];
+    list.forEach(function (s) {
+      var prev = res[res.length - 1];
+      if (s.kind === 'mentor' && prev && prev.kind === 'mentor') { prev.last = s.info; prev.count++; }
+      else { if (s.kind === 'mentor') { s.count = 1; } res.push(s); }
+    });
+    res.unfinished = list.unfinished;
+    return res;
+  }
+
+  function renderRoute() {
+    var r = buildRoute(), advice = document.getElementById('advice'), msg = '';
+    if (state.pace === 'flex' && state.year >= 4) msg = 'Te quedan ' + (6 - state.year) + (state.year === 5 ? ' año' : ' años') + ' de carrera: el flexible queda justo o no alcanza. <b>Te conviene el intensivo</b>, que te lleva a N4 en dos semestres.';
+    else if (state.pace === 'flex' && state.year === 3) msg = 'Entrando en 3° año, la ruta flexible recupera N1, N2 y N3 con un nivel por semestre, y llegas a N4 en el segundo semestre de 4° año, a tiempo para la práctica.';
+    else if (state.pace === 'int' && state.year <= 2) msg = 'El intensivo funciona en cualquier año, pero en ' + state.year + '° año muchos prefieren el flexible para no cargar el semestre: son cerca de dos sesiones por semana.';
+    else if (state.pace === 'int' && state.year === 5 && state.start === 2) msg = 'Si empiezas en el 2º semestre de 5° año, el nivel 4 cae después de egresar. Conviene partir en el 1er semestre.';
+    else if (state.pace === 'int') msg = 'Intensivo: el semestre A es la malla completa (N1, N2 y N3, cerca de dos sesiones por semana) y el semestre B es N4, con competencias y práctica.';
+    advice.hidden = !msg; advice.innerHTML = msg;
+    var shownYear = {};
+    document.getElementById('route').innerHTML = r.map(function (s) {
+      var hito = '';
+      if (!shownYear[s.info.car]) { shownYear[s.info.car] = true; var h = D.hitos.filter(function (x) { return x.ano === s.info.car; })[0]; if (h) hito = '<div class="hito"><b>Hito de ' + s.info.car + '° año</b>' + esc(h.texto) + '</div>'; }
+      var whenTxt2 = s.last ? s.info.txt + ' a ' + s.last.txt + ' · ' + (s.info.car === s.last.car ? s.info.car + '° año' : s.info.car + '° a ' + s.last.car + '° año') : s.info.txt + ' · ' + (s.info.car > 5 ? 'después de egresar' : s.info.car + '° año');
+      var when = '<span class="when">' + esc(whenTxt2) + '</span>';
+      if (s.kind === 'quiet') return '<article class="sem quiet">' + when + '<h3><span class="lvl lvx">Consolidar</span></h3><p>Sin nivel nuevo: Market Wrap, eventos y visitas, o adelantar módulos sueltos.</p>' + hito + '</article>';
+      if (s.kind === 'mentor') return '<article class="sem">' + when + '<h3><span class="lvl lv4">N4</span> Mentoría y empleo</h3><p>' + (s.count > 1 ? s.count + ' semestres: ' : '') + 'mentor de miembros nuevos, más competencias y postulación a la práctica o a programas trainee.</p>' + hito + '</article>';
+      var lvls = s.levels, title, mods = [], extra = '';
+      if (s.kind === 'n4cont') { title = 'Competir: segunda parte'; }
+      else if (lvls.length > 1) title = 'N1, N2 y N3 completos';
+      else title = LV[lvls[0]].nombre;
+      lvls.forEach(function (l) { mods = mods.concat(modsOfLevel(l)); });
+      var weeksTxt = lvls.length > 1 ? 'S1–S16, cerca de dos sesiones por semana' : (lvls[0] === 4 ? 'Todo el semestre, en paralelo a los talleres' : 'Semanas S' + LV[lvls[0]].semanas[0] + '–S' + LV[lvls[0]].semanas[1]);
+      if (lvls.indexOf(4) > -1) extra = '<p class="comp">' + compTxt(s.info.half) + '</p>';
+      var badges = lvls.map(function (l) { return '<span class="lvl lv' + l + '">' + LV[l].corto + '</span>'; }).join('');
+      return '<article class="sem">' + when + '<h3>' + badges + ' ' + esc(title) + (s.behind ? ' <em class="tag" style="background:var(--surface-3);color:var(--muted)">recupera</em>' : '') + '</h3>' +
+        '<p>' + esc(weeksTxt) + ' · ' + mods.length + ' módulos</p>' +
+        '<div class="mods">' + mods.slice(0, lvls.length > 1 ? 10 : 14).map(function (m) { return '<span style="--c:' + AREA[m.area].color + '">' + esc(m.nombre) + '</span>'; }).join('') + (lvls.length > 1 ? '<span style="--c:var(--muted)">y ' + (mods.length - 10) + ' más</span>' : '') + '</div>' +
+        extra + hito + '</article>';
+    }).join('') + (r.unfinished ? '<article class="sem quiet"><span class="when">Fin de la carrera</span><h3><span class="lvl lvx">No alcanza</span></h3><p>Con este ritmo no llegas a N4 antes de egresar. Prueba el intensivo.</p></article>' : '');
+  }
+
+  /* ---------- Mapa ---------- */
+  var mapEl = document.getElementById('map'), detailEl = document.getElementById('detail'), detailHome = detailEl.parentNode;
+  function narrowMap() { return window.matchMedia('(max-width: 680px)').matches; }
+  function placeDetail(scroll) {
+    if (narrowMap() && state.sel) {
+      var btn = mapEl.querySelector('.mod[data-m="' + state.sel + '"]');
+      if (btn && !btn.parentNode.classList.contains('row-hidden')) { btn.parentNode.after(detailEl); return; }
+    }
+    if (detailEl.parentNode !== detailHome) detailHome.appendChild(detailEl);
+    if (scroll && window.matchMedia('(max-width: 920px)').matches) detailEl.scrollIntoView({ block: 'nearest' });
+  }
+  document.getElementById('filters').innerHTML = D.areas.map(function (a) {
+    return '<button type="button" class="chip" data-a="' + a.id + '" aria-pressed="true"><i style="background:' + a.color + '"></i>' + esc(a.nombre) + (a.nuevo ? ' <em class="tag">Nuevo</em>' : '') + '</button>';
+  }).join('');
+  document.getElementById('filters').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    var id = b.dataset.a, on = !state.areas[id];
+    var count = Object.keys(state.areas).filter(function (k) { return state.areas[k]; }).length;
+    if (!on && count === 1) return;
+    state.areas[id] = on; b.setAttribute('aria-pressed', String(on)); renderMap();
+  });
+
+  function renderMap() {
+    var h = '<div class="corner"></div>' + D.niveles.map(function (l) { return '<div class="mh"><b>' + l.corto + ' · ' + esc(l.nombre) + '</b><small>' + esc(l.semanas ? 'S' + l.semanas[0] + '–S' + l.semanas[1] + ' · ' + l.oferta : l.oferta) + '</small></div>'; }).join('');
+    D.areas.forEach(function (a) {
+      var hid = state.areas[a.id] ? '' : ' row-hidden';
+      h += '<div class="ma' + hid + '"><span><i style="background:' + a.color + '"></i>' + esc(a.nombre) + '</span>' + (a.nuevo ? '<em class="tag" style="width:fit-content">Nuevo tras SURA</em>' : '') + '</div>';
+      D.niveles.forEach(function (l) {
+        var ms = D.modulos.filter(function (m) { return m.area === a.id && m.nivel === l.id; }).sort(function (x, y) { return sortKey(x) - sortKey(y); });
+        h += '<div class="mc' + hid + '"' + (ms.length ? ' data-lv="' + l.corto + '"' : '') + '>' + ms.map(modBtn).join('') + '</div>';
+      });
+    });
+    if (detailEl.parentNode === mapEl) detailHome.appendChild(detailEl);
+    mapEl.innerHTML = h;
+    paintSel();
+    placeDetail(false);
+  }
+  function modBtn(m) {
+    var cls = 'mod' + (done[m.id] ? ' done' : (available(m) ? '' : ' locked'));
+    return '<button type="button" class="' + cls + '" data-m="' + m.id + '" style="--c:' + AREA[m.area].color + '" aria-label="' + esc(m.nombre + ', ' + whenTxt(m) + (done[m.id] ? ', aprobado' : '')) + '">' + esc(m.nombre) + '<small>' + esc(whenTxt(m) + ' · ' + m.formato) + '</small></button>';
+  }
+  mapEl.addEventListener('click', function (e) { var b = e.target.closest('.mod'); if (b) select(b.dataset.m); });
+  detailEl.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-go]'); if (b) { select(b.dataset.go); return; }
+    var t = e.target.closest('[data-toggle]'); if (t) setDone(t.dataset.toggle, !done[t.dataset.toggle]);
+  });
+
+  function select(id) { state.sel = id; paintSel(); renderDetail(); placeDetail(true); }
+  function paintSel() {
+    var m = state.sel ? MOD[state.sel] : null;
+    mapEl.querySelectorAll('.mod').forEach(function (b) {
+      var id = b.dataset.m;
+      b.classList.toggle('sel', !!m && id === m.id);
+      b.classList.toggle('pre', !!m && m.pre.indexOf(id) > -1);
+      b.classList.toggle('unl', !!m && m.unl.indexOf(id) > -1);
+    });
+  }
+  function renderDetail() {
+    var m = MOD[state.sel]; if (!m) return;
+    var a = AREA[m.area], lv = LV[m.nivel];
+    var when = m.semana ? 'S' + m.semana + ' · semana del ' + weekDate(m.semana) + ' en el 1er semestre' : (m.semanas ? 'S' + m.semanas[0] + ' a S' + m.semanas[1] : 'Todo el año, según el calendario de cada competencia');
+    var pts = m.tamano ? TAM[m.tamano] + ' · ' + PTS[m.tamano] + ' puntos IPA' : 'Sin entregable con puntaje';
+    var pre = m.pre.length ? '<div class="links">' + m.pre.map(function (p) { return '<button type="button" class="pre" data-go="' + p + '">' + (done[p] ? '✓ ' : '') + esc(MOD[p].nombre) + '</button>'; }).join('') + '</div>' : '<span class="links"><em>Ninguno: puedes tomarlo desde el inicio</em></span>';
+    var unl = m.unl.length ? '<div class="links">' + m.unl.map(function (p) { return '<button type="button" class="unl" data-go="' + p + '">' + esc(MOD[p].nombre) + '</button>'; }).join('') + '</div>' : '<span class="links"><em>Nada directo</em></span>';
+    var status = done[m.id] ? '<span style="color:var(--ok)">Aprobado</span>' : (available(m) ? 'Disponible' : 'Falta un prerrequisito');
+    detailEl.innerHTML = '<span class="label" style="color:' + a.color + '">' + esc(a.nombre) + (m.nuevo ? ' <em class="tag">Nuevo tras SURA</em>' : '') + '</span>' +
+      '<h3>' + esc(m.nombre) + '</h3>' +
+      '<div class="meta"><span>' + lv.corto + ' · ' + esc(lv.nombre) + '</span><span>' + esc(m.formato) + '</span>' + (m.cierra ? '<span style="color:var(--gold);border-color:var(--gold)">Cierra el nivel</span>' : '') + '</div>' +
+      '<p>' + esc(m.desc) + '</p>' +
+      '<dl><div><dt>Cuándo</dt><dd>' + esc(when) + '</dd></div>' +
+      '<div><dt>Entregable</dt><dd>' + esc(m.entregable || 'Asistencia y participación') + '</dd></div>' +
+      '<div><dt>Puntaje</dt><dd>' + esc(pts) + '</dd></div>' +
+      '<div><dt>Estado</dt><dd>' + status + '</dd></div>' +
+      '<div><dt>Necesitas antes</dt><dd>' + pre + '</dd></div>' +
+      '<div><dt>Desbloquea</dt><dd>' + unl + '</dd></div></dl>' +
+      '<button type="button" class="btn' + (done[m.id] ? ' ghost' : '') + '" data-toggle="' + m.id + '">' + (done[m.id] ? 'Quitar de aprobados' : 'Marcar como aprobado') + '</button>';
+  }
+
+  /* ---------- Pasaporte (vista) ---------- */
+  function levelPassed(l) { var c = D.modulos.filter(function (m) { return m.nivel === l && m.cierra; }); return c.length > 0 && c.every(function (m) { return done[m.id]; }); }
+  function renderPass() {
+    var ids = Object.keys(done), pts = ids.reduce(function (s, id) { var t = MOD[id].tamano; return s + (t ? PTS[t] : 0); }, 0);
+    var lvlTop = 0; [1, 2, 3].forEach(function (l) { if (levelPassed(l) && lvlTop === l - 1) lvlTop = l; });
+    document.getElementById('kpis').innerHTML =
+      '<div><b>' + ids.length + '<span style="font-size:15px;color:var(--muted)"> / ' + D.modulos.length + '</span></b><span>módulos aprobados</span></div>' +
+      '<div><b>' + pts + '</b><span>puntos IPA por formación</span></div>' +
+      '<div><b>' + (lvlTop ? 'N' + lvlTop : '—') + '</b><span>último nivel cerrado</span></div>';
+    document.getElementById('bars-lv').innerHTML = D.niveles.map(function (l) {
+      var ms = D.modulos.filter(function (m) { return m.nivel === l.id; }), n = ms.filter(function (m) { return done[m.id]; }).length;
+      var passed = l.id < 4 && levelPassed(l.id);
+      return '<div class="barrow"><span>' + l.corto + ' ' + esc(l.nombre) + '</span><div class="track"><div class="fill" style="width:' + Math.round(100 * n / ms.length) + '%;--c:' + (passed ? 'var(--ok)' : 'var(--gold)') + '"></div></div><span class="num' + (passed ? ' ok' : '') + '">' + (passed ? '✓ ' : '') + n + '/' + ms.length + '</span></div>';
+    }).join('');
+    document.getElementById('bars-ar').innerHTML = D.areas.map(function (a) {
+      var ms = D.modulos.filter(function (m) { return m.area === a.id; }), n = ms.filter(function (m) { return done[m.id]; }).length;
+      return '<div class="barrow"><span>' + esc(a.nombre) + '</span><div class="track"><div class="fill" style="width:' + Math.round(100 * n / ms.length) + '%;--c:' + a.color + '"></div></div><span class="num">' + n + '/' + ms.length + '</span></div>';
+    }).join('');
+    var elig = document.getElementById('elig'), ok = levelPassed(1) && levelPassed(2);
+    elig.className = 'elig' + (ok ? ' yes' : '');
+    elig.innerHTML = ok ? '<b>Puedes postular a N4.</b> Ya cerraste N1 y N2, el requisito que propone la malla para competir; el cupo se asigna por IPA.' :
+      '<b>Para postular a N4 te falta:</b> ' + [levelPassed(1) ? null : 'la prueba de salida de N1 (Mesas de dinero)', levelPassed(2) ? null : 'el integrador de N2 (Acciones)'].filter(Boolean).join(' y ') + '.';
+    var av = D.modulos.filter(function (m) { return !done[m.id] && available(m); }).sort(function (a, b) { return sortKey(a) - sortKey(b); });
+    document.getElementById('avail').innerHTML = av.length ? av.map(function (m) {
+      return '<button type="button" data-m="' + m.id + '" style="--c:' + AREA[m.area].color + '" aria-label="Marcar ' + esc(m.nombre) + ' como aprobado"><span>' + esc(m.nombre) + '</span><small>' + LV[m.nivel].corto + ' · ' + esc(whenTxt(m)) + '</small></button>';
+    }).join('') : '<p style="color:var(--ok);margin:0">Aprobaste todos los módulos disponibles.</p>';
+  }
+  document.getElementById('avail').addEventListener('click', function (e) { var b = e.target.closest('button[data-m]'); if (b) setDone(b.dataset.m, true); });
+
+  function summary() {
+    var ids = Object.keys(done).sort(function (a, b) { return sortKey(MOD[a]) - sortKey(MOD[b]); });
+    var pts = ids.reduce(function (s, id) { var t = MOD[id].tamano; return s + (t ? PTS[t] : 0); }, 0);
+    var lines = ['Pasaporte · Malla flexible Club de Finanzas FAE', 'Módulos aprobados: ' + ids.length + ' de ' + D.modulos.length + ' · ' + pts + ' puntos IPA', ''];
+    D.niveles.forEach(function (l) {
+      var ms = ids.filter(function (id) { return MOD[id].nivel === l.id; });
+      lines.push(l.corto + ' ' + l.nombre + (l.id < 4 && levelPassed(l.id) ? ' (cerrado)' : '') + ': ' + (ms.length ? ms.map(function (id) { return MOD[id].nombre; }).join(', ') : 'sin módulos'));
+    });
+    return lines.join('\n');
+  }
+  var toast = document.getElementById('toast'), copybox = document.getElementById('copybox');
+  document.getElementById('copy').addEventListener('click', function () {
+    var txt = summary();
+    function fallback() { copybox.hidden = false; copybox.value = txt; copybox.focus(); copybox.select(); toast.textContent = 'Selecciona y copia el texto'; }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(function () { toast.textContent = 'Copiado'; copybox.hidden = true; setTimeout(function () { toast.textContent = ''; }, 2500); }, fallback);
+      } else fallback();
+    } catch (e) { fallback(); }
+  });
+  var resetBtn = document.getElementById('reset'), armed = false;
+  resetBtn.addEventListener('click', function () {
+    if (!armed) { armed = true; resetBtn.textContent = '¿Seguro? Toca de nuevo'; setTimeout(function () { armed = false; resetBtn.textContent = 'Borrar mi avance'; }, 4000); return; }
+    armed = false; resetBtn.textContent = 'Borrar mi avance'; done = {}; save(); refresh(); toast.textContent = 'Avance borrado';
+  });
+
+  /* ---------- Semestre tipo ---------- */
+  function renderWeeks() {
+    var h = '<div class="wh" style="text-align:left;padding-left:10px"><b style="color:var(--muted)">Semana</b><span>1er sem 2027</span></div>';
+    for (var w = 1; w <= 16; w++) h += '<div class="wh"><b>S' + w + '</b><span>' + weekDate(w) + '</span></div>';
+    h += '<div class="wl">Niveles</div>';
+    [[1, 5, 'N1 Fundamentos', '#8C8167', 'var(--ink)'], [6, 11, 'N2 Aplicado', '#BFA463', 'var(--bg)'], [12, 15, 'N3 Especialización', 'var(--gold)', 'var(--bg)'], [16, 16, 'Demo day', 'var(--ink)', 'var(--bg)']].forEach(function (b) {
+      h += '<div class="band" style="grid-column:span ' + (b[1] - b[0] + 1) + ';padding:0"><div class="lvband" style="background:' + b[3] + ';color:' + b[4] + '">' + b[2] + '</div></div>';
+    });
+    D.areas.forEach(function (a) {
+      h += '<div class="wl"><span style="width:8px;height:8px;border-radius:2px;background:' + a.color + ';margin-right:6px;flex:none"></span>' + esc(a.nombre.split(':')[0]) + '</div>';
+      for (var w = 1; w <= 16; w++) {
+        var ms = D.modulos.filter(function (m) { return m.area === a.id && m.semana === w; });
+        h += '<div class="wc">' + ms.map(function (m) { return '<span style="--c:' + a.color + '">' + esc(m.nombre) + '</span>'; }).join('') + '</div>';
+      }
+    });
+    h += '<div class="wl">N4 Competir</div><div class="band" style="grid-column:span 16;padding:0"><div class="lvband" style="background:var(--teal)">Todo el año en paralelo: Laboratorio de competencias, proyecto del agente, práctica y mentoría</div></div>';
+    document.getElementById('weeks').innerHTML = h;
+    document.getElementById('weeks-note').textContent = 'Fechas del 1er semestre con inicio supuesto el lunes ' + weekDate(1) + ' de 2027. El 2º semestre repite las mismas semanas; sus fechas dependen del calendario USACH 2027. El Market Wrap corre de S7 a S16 y el mini-challenge de trading, de S12 a S16.';
+  }
+
+  function refresh() { renderMap(); if (state.sel) renderDetail(); renderPass(); }
+  renderRoute(); renderMap(); renderPass(); renderWeeks();
+})();
+</script>
+</body>
+</html>
