@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actividades 2027 · Club de Finanzas FAE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: herramienta de trabajo del club, sobria y precisa.
+   IDEA: la carta Gantt impresa del Anexo I, pero viva: cada barra se abre y se lleva al calendario.
+   PICTURE: la grilla de 32 semanas misma, arriba, bajo un título modesto.
+   COLOUR and TYPE: marca del club (negro y dorado), azul para semanas con gasto como en la planilla; Playfair + Inter.
+   LAYOUT: barra fija, controles en una fila que se envuelve, vista elegida, panel de detalle lateral. */
+:root{color-scheme:light dark;
+ --bg:light-dark(#F6F4EE,#0B0B0A);--surface:light-dark(#FFFFFF,#151412);--surface2:light-dark(#EFEBE1,#1D1B17);
+ --line:light-dark(#DDD7C9,rgba(243,241,234,.12));--ink:light-dark(#1A1814,#F3F1EA);--muted:light-dark(#6B655A,#A6A194);
+ --gold:light-dark(#9A7A22,#C9A84C);--goldsoft:light-dark(#F1E7C8,rgba(201,168,76,.16));
+ --cost:light-dark(#4F8FD0,#6FA8E0);--free:light-dark(#BDB6A6,#5E5A50);--today:#D14D5B;--clubbar-max:1400px;--clubbar-pad:max(3vw,14px)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+a{color:var(--gold)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.bar{position:sticky;top:0;z-index:20;background:#0B0B0A;color:#F3F1EA;border-bottom:1px solid rgba(201,168,76,.4)}
+.bar .in{max-width:1400px;margin:auto;padding:10px max(3vw,14px);display:flex;align-items:center;gap:12px}
+.bar img{height:32px;width:auto}
+.bar b{font-weight:600;letter-spacing:.02em}.bar small{color:#C9A84C;display:block;font-size:12px}
+.wrap{max-width:1400px;margin:auto;padding:18px max(3vw,14px) 40px}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(28px,4vw,40px);line-height:1.08;margin:6px 0 6px;text-wrap:balance}
+.lede{color:var(--muted);margin:0 0 16px;max-width:75ch}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 14px;border-radius:999px;cursor:pointer;min-height:38px;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--gold);color:#0B0B0A;font-weight:600}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;cursor:pointer;min-height:38px;color:var(--muted)}
+.chip[aria-pressed=true]{border-color:var(--gold);background:var(--goldsoft);color:var(--ink)}
+select,input[type=search]{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 10px;min-height:40px;font-size:16px}
+input[type=search]{width:220px}
+.btn{border:1px solid var(--gold);background:var(--gold);color:#0B0B0A;border-radius:10px;padding:8px 14px;min-height:40px;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;color:var(--gold)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted);margin:4px 0 12px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px}
+/* Gantt */
+.gscroll{overflow-x:auto}
+.grid{display:grid;grid-template-columns:minmax(230px,320px) repeat(32,minmax(22px,1fr));min-width:1000px}
+.grid>div{border-bottom:1px solid var(--line)}
+.mh{font-size:12px;font-weight:600;text-align:center;padding:8px 0 2px;border-left:1px solid var(--line);color:var(--muted)}
+.wh{font-size:11px;text-align:center;color:var(--muted);padding:2px 0 6px;border-left:1px solid var(--line)}
+.wh.m0{border-left-color:var(--muted)}
+.hit{grid-column:1/-1;background:var(--surface2);font-weight:600;font-size:13px;padding:7px 12px}
+.name{position:sticky;left:0;z-index:2;background:var(--surface);padding:8px 12px;cursor:pointer;border-right:1px solid var(--line)}
+.name:hover{background:var(--surface2)}
+.name .t{font-weight:500;line-height:1.3;display:block}.name .r{font-size:12px;color:var(--muted)}
+.name .id{color:var(--gold);font-weight:600;margin-right:6px}
+.cell{border-left:1px solid var(--line);position:relative;cursor:pointer;min-height:44px}
+.cell.m0{border-left-color:color-mix(in srgb,var(--muted) 45%,transparent)}
+.cell i{position:absolute;inset:9px 2px;border-radius:4px;background:var(--free)}
+.cell i.g{background:var(--cost)}
+.cell.now::after{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:2px solid var(--today)}
+/* Calendario */
+.calhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px}
+.calhead h2{font-family:"Playfair Display",Georgia,serif;margin:0;font-size:26px}
+.periods{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
+.pchip{font-size:12.5px;border:1px dashed var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;background:none;color:var(--ink)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--line)}
+.dow{font-size:12px;color:var(--muted);text-align:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.day{min-height:104px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:4px 5px}
+.day:nth-child(7n){border-right:0}
+.day.out{background:var(--surface2);opacity:.55}
+.day .n{font-size:12px;color:var(--muted)}.day.hol .n{color:var(--today);font-weight:600}
+.ev{display:block;width:100%;text-align:left;font-size:12px;line-height:1.25;border:0;border-left:3px solid var(--free);background:var(--surface2);border-radius:4px;padding:3px 5px;margin-top:3px;cursor:pointer;color:var(--ink)}
+.ev.g{border-left-color:var(--cost)}
+/* Lista */
+.month{padding:4px 16px 12px}
+.month h3{font-family:"Playfair Display",Georgia,serif;font-size:22px;margin:14px 0 6px}
+.row{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.row .d{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}.row .d small{display:block;font-weight:400;color:var(--muted)}
+.row .w{cursor:pointer}.row .w span{display:block;font-size:13px;color:var(--muted)}
+.gc{white-space:nowrap;font-size:13px;font-weight:600;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+.gc:hover{border-color:var(--gold)}
+.est{color:var(--muted);font-weight:400}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+/* Detalle */
+.shade{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+.shade.on{opacity:1;pointer-events:auto}
+aside{position:fixed;top:0;right:0;height:100%;width:min(460px,100vw);background:var(--surface);z-index:31;transform:translateX(102%);transition:transform .25s;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+aside.on{transform:none}
+aside header{padding:18px 18px 10px;border-bottom:1px solid var(--line)}
+aside h2{font-family:"Playfair Display",Georgia,serif;font-size:24px;line-height:1.15;margin:4px 0}
+aside .body{padding:14px 18px;overflow:auto;flex:1}
+.close{float:right;border:1px solid var(--line);background:none;border-radius:8px;width:40px;height:40px;cursor:pointer;font-size:20px}
+.tag{display:inline-block;font-size:12px;border-radius:999px;padding:2px 9px;margin-right:6px;background:var(--surface2);color:var(--muted)}
+.tag.g{background:color-mix(in srgb,var(--cost) 22%,transparent);color:var(--ink)}
+.sess{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#0B0B0A;color:#F3F1EA;border:1px solid #C9A84C;border-radius:10px;padding:10px 16px;opacity:0;transition:opacity .2s;z-index:40;pointer-events:none}
+.toast.on{opacity:1}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
+@media (max-width:600px){input[type=search]{width:100%}#hitos{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}#hitos .chip{flex:none}.row{grid-template-columns:70px minmax(0,1fr)}.row .gc{grid-column:2;justify-self:start}.day{min-height:70px}.ev{font-size:0;height:8px;padding:0}.bar small{display:none}}
+@media (prefers-reduced-motion:reduce){aside,.shade,.toast{transition:none}}
+@media print{.bar,.controls,aside,.shade{display:none}}
+</style>
+</head>
+<body>
+<!-- [23 nov · actividades] barra compartida con logo y cambio entre páginas: ver club-bar.js -->
+<script src="club-bar.js"></script></div>
+<main class="wrap">
+  <h1>Actividades 2027, semana a semana</h1>
+  <p class="lede">Carta Gantt v11 del Fondo León USACH: 25 actividades del 26 de abril al 19 de noviembre de 2027. Toca una actividad para ver el detalle y agregar sus fechas a Google Calendar.</p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Vista">
+      <button data-view="gantt" aria-pressed="true">Gantt</button><button data-view="cal" aria-pressed="false">Calendario</button><button data-view="list" aria-pressed="false">Lista</button>
+    </div>
+    <input type="search" id="q" placeholder="Buscar actividad" aria-label="Buscar actividad">
+    <select id="resp" aria-label="Responsable"><option value="">Todas las direcciones</option></select>
+    <button class="chip" id="onlyCost" aria-pressed="false">Solo con gasto</button>
+    <button class="btn ghost" id="copyIcs">Copiar .ics del filtro</button>
+  </div>
+  <div class="controls" id="hitos" role="group" aria-label="Hitos"></div>
+  <div class="legend"><span><i class="sw" style="background:var(--cost)"></i>Con gasto del Fondo León</span><span><i class="sw" style="background:var(--free)"></i>Sin gasto</span><span>≈ fecha estimada desde la semana marcada</span></div>
+  <section id="view" class="panel"></section>
+  <p class="note">Las fechas exactas de sesión salen de la semana marcada en la Gantt v11, con el mismo día de la semana que la fecha de inicio y sin feriados. Las de competencias externas son estimadas y se ajustan con cada organizador.</p>
+</main>
+<div class="shade" id="shade"></div>
+<aside id="det" aria-hidden="true" aria-labelledby="dTitle"></aside>
+<div class="toast" id="toast" role="status"></div>
+<script id="data" type="application/json">[{"id": "1.1", "hito": "1", "hitoName": "Inicio y gestión del programa 2027", "title": "Kick-off Programa 2027", "desc": "Primera reunión de socios del año, con la presentación de las actividades y los equipos 2027.", "resp": "Mesa Central", "start": "2027-05-05", "end": "2027-05-05", "gasto": false, "weeks": [[4, "sin"]], "type": "unico", "sessions": [{"date": "2027-05-05", "gasto": false, "est": false, "label": ""}]}, {"id": "1.2", "hito": "1", "hitoName": "Inicio y gestión del programa 2027", "title": "Reuniones Quincenales de Socios", "desc": "Reunión cada dos semanas con los miembros del club para coordinar las actividades y revisar su avance.", "resp": "Mesa Central", "start": "2027-05-19", "end": "2027-11-17", "gasto": false, "weeks": [[6, "sin"], [8, "sin"], [10, "sin"], [11, "sin"], [13, "sin"], [15, "sin"], [17, "sin"], [19, "sin"], [21, "sin"], [23, "sin"], [24, "sin"], [26, "sin"], [28, "sin"], [30, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-05-19", "gasto": false, "est": false, "label": "Reunión 1 de 14"}, {"date": "2027-06-02", "gasto": false, "est": true, "label": "Reunión 2 de 14"}, {"date": "2027-06-16", "gasto": false, "est": true, "label": "Reunión 3 de 14"}, {"date": "2027-06-23", "gasto": false, "est": true, "label": "Reunión 4 de 14"}, {"date": "2027-07-14", "gasto": false, "est": true, "label": "Reunión 5 de 14"}, {"date": "2027-07-28", "gasto": false, "est": true, "label": "Reunión 6 de 14"}, {"date": "2027-08-11", "gasto": false, "est": true, "label": "Reunión 7 de 14"}, {"date": "2027-08-25", "gasto": false, "est": true, "label": "Reunión 8 de 14"}, {"date": "2027-09-08", "gasto": false, "est": true, "label": "Reunión 9 de 14"}, {"date": "2027-09-22", "gasto": false, "est": true, "label": "Reunión 10 de 14"}, {"date": "2027-10-06", "gasto": false, "est": true, "label": "Reunión 11 de 14"}, {"date": "2027-10-20", "gasto": false, "est": true, "label": "Reunión 12 de 14"}, {"date": "2027-11-03", "gasto": false, "est": true, "label": "Reunión 13 de 14"}, {"date": "2027-11-17", "gasto": false, "est": false, "label": "Reunión 14 de 14"}]}, {"id": "1.3", "hito": "1", "hitoName": "Inicio y gestión del programa 2027", "title": "Gestión y Rendición del Fondo León", "desc": "Envío de los comprobantes de matrícula para recibir las cuotas, registro de boletas, informe de avance en agosto e informe final en noviembre con boletas, listas de asistencia y registro fotográfico.", "resp": "Dir. Finanzas y Proyectos", "start": "2027-04-26", "end": "2027-11-19", "gasto": false, "weeks": [[3, "sin"], [16, "sin"], [17, "sin"], [29, "sin"], [30, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-04-26", "endDate": "2027-04-30", "label": "Matrícula y primera cuota", "gasto": false, "est": true}, {"date": "2027-08-02", "endDate": "2027-08-13", "label": "Informe de avance", "gasto": false, "est": true}, {"date": "2027-11-08", "endDate": "2027-11-19", "label": "Informe final", "gasto": false, "est": true}]}, {"id": "2.1", "hito": "2", "hitoName": "Charlas y empleabilidad", "title": "Conversatorios con Egresados USACH", "desc": "Dos conversatorios abiertos a la comunidad USACH con egresados que trabajan en finanzas, en cargos iniciales o senior. Incluye pizza y bebidas para los asistentes, atención y diploma de reconocimiento a los panelistas y entrega de pins.", "resp": "Dir. Eventos y Logística", "start": "2027-05-26", "end": "2027-09-22", "gasto": true, "weeks": [[7, "gasto"], [23, "gasto"]], "type": "sesiones", "sessions": [{"date": "2027-05-26", "gasto": true, "est": false, "label": "Conversatorio 1 de 2"}, {"date": "2027-09-22", "gasto": true, "est": false, "label": "Conversatorio 2 de 2"}]}, {"id": "2.2", "hito": "2", "hitoName": "Charlas y empleabilidad", "title": "Charlas Magistrales con Referentes del Mundo Financiero", "desc": "Dos charlas abiertas, una por semestre, con referentes destacados de la industria financiera o la academia. Incluye atención a los expositores.", "resp": "Dir. Eventos y Logística", "start": "2027-06-23", "end": "2027-08-25", "gasto": true, "weeks": [[11, "gasto"], [19, "gasto"]], "type": "sesiones", "sessions": [{"date": "2027-06-23", "gasto": true, "est": false, "label": "Charla 1 de 2"}, {"date": "2027-08-25", "gasto": true, "est": false, "label": "Charla 2 de 2"}]}, {"id": "2.3", "hito": "2", "hitoName": "Charlas y empleabilidad", "title": "Charla de Empleabilidad en Finanzas", "desc": "Reclutadores de empresas financieras entregan consejos para postular a prácticas y primeros empleos. Incluye atención a los expositores y el pendón del club, que se reutiliza todo el año.", "resp": "Dir. Eventos y Logística", "start": "2027-05-12", "end": "2027-05-12", "gasto": true, "weeks": [[5, "gasto"]], "type": "unico", "sessions": [{"date": "2027-05-12", "gasto": true, "est": false, "label": ""}]}, {"id": "2.4", "hito": "2", "hitoName": "Charlas y empleabilidad", "title": "Ciclo de Charlas con Profesionales", "desc": "Ciclo de tres charlas abiertas, cada una con profesionales de un área distinta de las finanzas, como investment banking, wealth management o finanzas corporativas, según el interés de los estudiantes. Incluye atención a los expositores.", "resp": "Dir. Eventos y Logística", "start": "2027-06-09", "end": "2027-09-08", "gasto": true, "weeks": [[9, "gasto"], [12, "gasto"], [21, "gasto"]], "type": "sesiones", "sessions": [{"date": "2027-06-09", "gasto": true, "est": false, "label": "Charla 1 de 3"}, {"date": "2027-07-07", "gasto": true, "est": true, "label": "Charla 2 de 3"}, {"date": "2027-09-08", "gasto": true, "est": false, "label": "Charla 3 de 3"}]}, {"id": "2.5", "hito": "2", "hitoName": "Charlas y empleabilidad", "title": "Expo Finanzas", "desc": "Evento más grande del año, abierto a la comunidad USACH, con charlas de expositores y feria de empleabilidad. Incluye coffee break, atención a los expositores y entrega de pins.", "resp": "Dir. Eventos y Logística", "start": "2027-10-20", "end": "2027-10-20", "gasto": true, "weeks": [[26, "gasto"]], "type": "unico", "sessions": [{"date": "2027-10-20", "gasto": true, "est": false, "label": ""}]}, {"id": "3.1", "hito": "3", "hitoName": "Talleres formativos", "title": "Taller de Excel para Finanzas", "desc": "Dos sesiones prácticas de Excel aplicado a finanzas.", "resp": "Dir. Formación Académica", "start": "2027-05-12", "end": "2027-05-19", "gasto": false, "weeks": [[5, "sin"], [6, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-05-12", "gasto": false, "est": false, "label": "Sesión 1 de 2"}, {"date": "2027-05-19", "gasto": false, "est": false, "label": "Sesión 2 de 2"}]}, {"id": "3.2", "hito": "3", "hitoName": "Talleres formativos", "title": "Taller Bloomberg Terminal Avanzado", "desc": "Dos sesiones de funciones avanzadas del terminal en la Sala Bloomberg FAE, con 16 cupos por sesión.", "resp": "Dir. Formación Académica", "start": "2027-06-08", "end": "2027-06-15", "gasto": false, "weeks": [[9, "sin"], [10, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-06-08", "gasto": false, "est": false, "label": "Sesión 1 de 2"}, {"date": "2027-06-15", "gasto": false, "est": false, "label": "Sesión 2 de 2"}]}, {"id": "3.3", "hito": "3", "hitoName": "Talleres formativos", "title": "Talleres de Valorización", "desc": "Tres sesiones de valorización de empresas como preparación para el Torneo de Valorización Itaú.", "resp": "Dir. Formación Académica", "start": "2027-08-18", "end": "2027-09-22", "gasto": false, "weeks": [[18, "sin"], [20, "sin"], [23, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-08-18", "gasto": false, "est": false, "label": "Sesión 1 de 3"}, {"date": "2027-09-01", "gasto": false, "est": true, "label": "Sesión 2 de 3"}, {"date": "2027-09-22", "gasto": false, "est": false, "label": "Sesión 3 de 3"}]}, {"id": "3.4", "hito": "3", "hitoName": "Talleres formativos", "title": "Talleres de Gestión de Portafolio", "desc": "Dos sesiones de gestión de portafolio antes del inicio del Torneo de Portafolio Itaú.", "resp": "Dir. Formación Académica", "start": "2027-05-27", "end": "2027-06-03", "gasto": false, "weeks": [[7, "sin"], [8, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-05-27", "gasto": false, "est": false, "label": "Sesión 1 de 2"}, {"date": "2027-06-03", "gasto": false, "est": false, "label": "Sesión 2 de 2"}]}, {"id": "3.5", "hito": "3", "hitoName": "Talleres formativos", "title": "Preparación CFA Ethics Challenge", "desc": "Sesiones de preparación del equipo durante el mes previo a la competencia. Incluye un taller sobre el Código de Ética y los Estándares de Conducta Profesional del CFA Institute.", "resp": "Dir. Formación Académica", "start": "2027-06-01", "end": "2027-07-02", "gasto": false, "weeks": [[8, "sin"], [9, "sin"], [10, "sin"], [12, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-06-01", "gasto": false, "est": false, "label": "Sesión 1 de 4"}, {"date": "2027-06-08", "gasto": false, "est": true, "label": "Sesión 2 de 4"}, {"date": "2027-06-15", "gasto": false, "est": true, "label": "Sesión 3 de 4"}, {"date": "2027-07-02", "gasto": false, "est": false, "label": "Sesión 4 de 4"}]}, {"id": "3.6", "hito": "3", "hitoName": "Talleres formativos", "title": "Preparación CFA Research Challenge", "desc": "Sesiones de preparación de los dos equipos desde junio, en paralelo a la preparación del CFA Ethics Challenge, por ser la competencia más exigente. Termina cuando parte la competencia.", "resp": "Dir. Formación Académica", "start": "2027-06-07", "end": "2027-09-03", "gasto": false, "weeks": [[8, "sin"], [9, "sin"], [10, "sin"], [11, "sin"], [12, "sin"], [13, "sin"], [14, "sin"], [15, "sin"], [16, "sin"], [17, "sin"], [18, "sin"], [19, "sin"], [20, "sin"]], "type": "periodo", "sessions": []}, {"id": "3.7", "hito": "3", "hitoName": "Talleres formativos", "title": "Talleres de Programación e IA Aplicada a Finanzas", "desc": "Dos talleres complementarios, uno de R y Python y otro de inteligencia artificial aplicada a finanzas, los temas con mayor demanda entre los miembros del club.", "resp": "Dir. Formación Académica", "start": "2027-09-09", "end": "2027-10-13", "gasto": false, "weeks": [[21, "sin"], [25, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-09-09", "gasto": false, "est": false, "label": "Sesión 1 de 2"}, {"date": "2027-10-13", "gasto": false, "est": false, "label": "Sesión 2 de 2"}]}, {"id": "4.1", "hito": "4", "hitoName": "Competencias de finanzas", "title": "CFA Ethics Challenge", "desc": "Participación de un equipo de cinco estudiantes. Fechas estimadas según la edición 2026, que partió el 7 de julio y tuvo su final cerca de un mes después.", "resp": "Mesa Central", "start": "2027-07-05", "end": "2027-08-06", "gasto": false, "weeks": [[12, "sin"], [13, "sin"], [14, "sin"], [15, "sin"], [16, "sin"]], "type": "periodo", "sessions": []}, {"id": "4.2", "hito": "4", "hitoName": "Competencias de finanzas", "title": "CFA Research Challenge", "desc": "Participación de dos equipos de cinco estudiantes. Fechas estimadas según la edición 2026, que partió la primera semana de septiembre con final local el 24 de noviembre. La final queda después del cierre del proyecto y no tiene gasto.", "resp": "Mesa Central", "start": "2027-09-06", "end": "2027-11-26", "gasto": false, "weeks": [[20, "sin"], [21, "sin"], [22, "sin"], [23, "sin"], [24, "sin"], [25, "sin"], [26, "sin"], [27, "sin"], [28, "sin"], [29, "sin"], [30, "sin"], [31, "sin"]], "type": "periodo", "sessions": []}, {"id": "4.3", "hito": "4", "hitoName": "Competencias de finanzas", "title": "Torneo de Valorización Itaú", "desc": "Competencia de valorización de empresas junto a Itaú, de un mes aproximadamente. Fechas estimadas que se coordinan con Itaú. Incluye diplomas de reconocimiento para los participantes destacados del club.", "resp": "Mesa Central y Dir. Formación Académica", "start": "2027-10-04", "end": "2027-11-05", "gasto": true, "weeks": [[24, "sin"], [25, "sin"], [26, "sin"], [27, "sin"], [28, "gasto"]], "type": "periodo", "sessions": []}, {"id": "4.4", "hito": "4", "hitoName": "Competencias de finanzas", "title": "Torneo de Portafolio Itaú", "desc": "Competencia de gestión de portafolio de unos cinco meses junto a Itaú. Fechas estimadas que se coordinan con Itaú. Incluye diplomas de reconocimiento para los participantes destacados del club.", "resp": "Mesa Central y Dir. Formación Académica", "start": "2027-06-08", "end": "2027-10-29", "gasto": true, "weeks": [[9, "sin"], [10, "sin"], [11, "sin"], [12, "sin"], [13, "sin"], [14, "sin"], [15, "sin"], [16, "sin"], [17, "sin"], [18, "sin"], [19, "sin"], [20, "sin"], [21, "sin"], [22, "sin"], [23, "sin"], [24, "sin"], [25, "sin"], [26, "sin"], [27, "gasto"]], "type": "periodo", "sessions": []}, {"id": "5.1", "hito": "5", "hitoName": "Comunicación y difusión del conocimiento", "title": "Podcast del Club", "desc": "Iniciativa nueva de comunicación del conocimiento. Compra de micrófonos y trípode al recibir los fondos y un episodio por semestre con invitados de las charlas, en junio y octubre.", "resp": "Dir. Comunicaciones y Marketing", "start": "2027-05-10", "end": "2027-10-07", "gasto": true, "weeks": [[5, "gasto"], [10, "sin"], [24, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-05-10", "gasto": true, "est": false, "label": "Compra de micrófonos y trípode"}, {"date": "2027-06-22", "gasto": false, "est": true, "label": "Episodio de junio"}, {"date": "2027-10-04", "gasto": false, "est": true, "label": "Episodio de octubre"}]}, {"id": "5.2", "hito": "5", "hitoName": "Comunicación y difusión del conocimiento", "title": "Página Web del Club", "desc": "Mantención de la página del club con el material de los talleres y los episodios del podcast. Incluye herramientas digitales para la página, como el dominio .cl.", "resp": "Dir. Comunicaciones y Marketing", "start": "2027-04-26", "end": "2027-11-19", "gasto": true, "weeks": [[3, "sin"], [4, "sin"], [5, "gasto"], [6, "sin"], [7, "sin"], [8, "sin"], [9, "sin"], [10, "sin"], [11, "sin"], [12, "sin"], [13, "sin"], [14, "sin"], [15, "sin"], [16, "sin"], [17, "sin"], [18, "sin"], [19, "sin"], [20, "sin"], [21, "sin"], [22, "sin"], [23, "sin"], [24, "sin"], [25, "sin"], [26, "sin"], [27, "sin"], [28, "sin"], [29, "sin"], [30, "sin"]], "type": "periodo", "sessions": []}, {"id": "6.1", "hito": "6", "hitoName": "Vinculación con la comunidad y otras organizaciones", "title": "Actividad con Organizaciones Estudiantiles", "desc": "Una actividad conjunta con una organización estudiantil USACH, como el Club de Emprendedores o el Club Andino Causach, con quienes el club ya trabajó en 2026. El formato, formativo o de integración, se define según la disponibilidad de la organización para fortalecer el bienestar y el sentido de comunidad.", "resp": "Dir. Eventos y Logística", "start": "2027-10-06", "end": "2027-10-06", "gasto": false, "weeks": [[24, "sin"]], "type": "unico", "sessions": [{"date": "2027-10-06", "gasto": false, "est": false, "label": ""}]}, {"id": "6.2", "hito": "6", "hitoName": "Vinculación con la comunidad y otras organizaciones", "title": "Visitas a Instituciones Financieras", "desc": "Al menos cinco visitas guiadas a instituciones del sector financiero durante el año.", "resp": "Dir. Eventos y Logística", "start": "2027-05-20", "end": "2027-11-04", "gasto": false, "weeks": [[6, "sin"], [10, "sin"], [17, "sin"], [20, "sin"], [28, "sin"]], "type": "sesiones", "sessions": [{"date": "2027-05-20", "gasto": false, "est": false, "label": "Visita 1 de 5"}, {"date": "2027-06-17", "gasto": false, "est": true, "label": "Visita 2 de 5"}, {"date": "2027-08-12", "gasto": false, "est": true, "label": "Visita 3 de 5"}, {"date": "2027-09-02", "gasto": false, "est": true, "label": "Visita 4 de 5"}, {"date": "2027-11-04", "gasto": false, "est": false, "label": "Visita 5 de 5"}]}, {"id": "6.3", "hito": "6", "hitoName": "Vinculación con la comunidad y otras organizaciones", "title": "Visita a Liceo", "desc": "Una visita de orientación y educación financiera para estudiantes de cuarto medio, preparada y dictada por socios del club. Incluye material impreso.", "resp": "Mesa Central y Dir. Formación Académica", "start": "2027-08-11", "end": "2027-08-11", "gasto": true, "weeks": [[17, "gasto"]], "type": "unico", "sessions": [{"date": "2027-08-11", "gasto": true, "est": false, "label": ""}]}, {"id": "6.4", "hito": "6", "hitoName": "Vinculación con la comunidad y otras organizaciones", "title": "Networking Night Interuniversitario", "desc": "Encuentro de fin de año entre socios del club y clubes de finanzas de otras universidades. Actividad autogestionada por el club, sin gasto para el Fondo León.", "resp": "Dir. Eventos y Logística", "start": "2027-11-11", "end": "2027-11-11", "gasto": false, "weeks": [[29, "sin"]], "type": "unico", "sessions": [{"date": "2027-11-11", "gasto": false, "est": false, "label": ""}]}]</script>
+<script>
+{
+const A = JSON.parse(document.getElementById('data').textContent);
+const MONTHS = ['Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre'];
+const MN = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const HOL = ['2027-05-21','2027-06-21','2027-06-28','2027-07-16','2027-09-17','2027-09-18','2027-09-19','2027-10-11','2027-11-01'];
+const HITOS = [...new Map(A.map(a => [a.hito, a.hitoName])).entries()];
+const st = {view:'gantt', q:'', resp:'', cost:false, hitos:new Set(HITOS.map(h=>h[0])), month:4};
+try { const s = JSON.parse(localStorage.getItem('gantt27')||'{}'); if (s.view) st.view = s.view; if (s.month) st.month = s.month; } catch(e) {}
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const D = s => new Date(s + 'T12:00:00');
+const iso = d => d.toISOString().slice(0,10);
+const add = (s, n) => { const d = D(s); d.setDate(d.getDate() + n); return iso(d); };
+const fmt = s => { const d = D(s); return d.getDate() + ' ' + MN[d.getMonth()]; };
+const wd = s => ['dom','lun','mar','mié','jue','vie','sáb'][D(s).getDay()];
+const todayIso = iso(new Date());
+
+// Eventos: cada sesión, actividad de un día o periodo completo
+function events(a){
+  if (a.type === 'periodo') return [{a, start:a.start, end:a.end, label:'Periodo completo', est:false, gasto:a.gasto, period:true}];
+  return a.sessions.map(s => ({a, start:s.date, end:s.endDate || s.date, label:s.label, est:s.est, gasto:s.gasto, period:!!s.endDate}));
+}
+const gcal = e => {
+  const t = e.a.id + ' ' + e.a.title + (e.label ? ' · ' + e.label : '');
+  const details = e.a.desc + '\n\nResponsable: ' + e.a.resp + (e.est ? '\nFecha estimada desde la semana marcada en la Gantt.' : '') + '\nClub de Finanzas FAE · Carta Gantt Fondo León 2027 (v11)';
+  const p = new URLSearchParams({action:'TEMPLATE', text:t, dates:e.start.replace(/-/g,'') + '/' + add(e.end,1).replace(/-/g,''), details, ctz:'America/Santiago'});
+  return 'https://calendar.google.com/calendar/render?' + p.toString();
+};
+function ics(evs){
+  const f = s => s.replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');
+  const L = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Club de Finanzas FAE//Gantt 2027//ES','CALSCALE:GREGORIAN','X-WR-CALNAME:Club de Finanzas FAE 2027'];
+  evs.forEach((e,i) => L.push('BEGIN:VEVENT','UID:' + e.a.id + '-' + i + '-' + e.start + '@clubfinanzasfae.cl','DTSTAMP:20261123T000000Z',
+    'DTSTART;VALUE=DATE:' + e.start.replace(/-/g,''),'DTEND;VALUE=DATE:' + add(e.end,1).replace(/-/g,''),
+    'SUMMARY:' + f(e.a.id + ' ' + e.a.title + (e.label ? ' · ' + e.label : '')),'DESCRIPTION:' + f(e.a.desc + '\nResponsable: ' + e.a.resp),'END:VEVENT'));
+  L.push('END:VCALENDAR'); return L.join('\r\n');
+}
+const visible = () => A.filter(a => st.hitos.has(a.hito) && (!st.resp || a.resp.includes(st.resp)) && (!st.cost || a.gasto)
+  && (!st.q || (a.id + ' ' + a.title + ' ' + a.desc + ' ' + a.resp).toLowerCase().includes(st.q)));
+
+function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2200); }
+
+// Controles
+$('#hitos').innerHTML = HITOS.map(([n,name]) => `<button class="chip" data-h="${n}" aria-pressed="true">${n}. ${esc(name)}</button>`).join('');
+const resps = [...new Set(A.flatMap(a => a.resp.split(' y ').map(r => r.trim())))].sort();
+$('#resp').innerHTML += resps.map(r => `<option>${esc(r)}</option>`).join('');
+
+function gantt(list){
+  const nowCol = (() => { const t = new Date(); if (t.getFullYear() !== 2027) return -1; const m = t.getMonth() - 3; if (m < 0 || m > 7) return -1; return m*4 + Math.min(3, Math.floor((t.getDate()-1)/7)); })();
+  let h = '<div class="gscroll"><div class="grid"><div class="mh" style="border-left:0"></div>' + MONTHS.map(m => `<div class="mh" style="grid-column:span 4">${m}</div>`).join('');
+  h += '<div class="wh" style="border-left:0"></div>' + Array.from({length:32}, (_,i) => `<div class="wh ${i%4?'':'m0'}">S${i%4+1}</div>`).join('');
+  HITOS.forEach(([n,name]) => {
+    const rows = list.filter(a => a.hito === n); if (!rows.length) return;
+    h += `<div class="hit">Hito ${n}: ${esc(name)}</div>`;
+    rows.forEach(a => {
+      const w = new Map(a.weeks.map(x => [x[0], x[1]]));
+      h += `<div class="name" data-id="${a.id}" tabindex="0" role="button"><span class="t"><span class="id">${a.id}</span>${esc(a.title)}</span><span class="r">${esc(a.resp)}</span></div>`;
+      for (let i = 0; i < 32; i++) h += `<div class="cell ${i%4?'':'m0'} ${i===nowCol?'now':''}" data-id="${a.id}">${w.has(i) ? `<i class="${w.get(i)==='gasto'?'g':''}"></i>` : ''}</div>`;
+    });
+  });
+  return h + '</div></div>' + (list.length ? '' : '<p class="empty">Ninguna actividad con estos filtros.</p>');
+}
+function cal(list){
+  const y = 2027, m = st.month, first = new Date(y, m, 1), days = new Date(y, m+1, 0).getDate();
+  const lead = (first.getDay() + 6) % 7, evs = list.flatMap(events);
+  const per = evs.filter(e => e.period && e.start <= iso(new Date(y,m,days,12)) && e.end >= iso(new Date(y,m,1,12)));
+  let h = `<div class="calhead"><button class="chip" id="prev" ${m<=3?'disabled':''} aria-label="Mes anterior">‹</button><h2>${MONTHS[m-3]} 2027</h2><button class="chip" id="next" ${m>=10?'disabled':''} aria-label="Mes siguiente">›</button></div>`;
+  h += `<div class="periods">${per.map(e => `<button class="pchip" data-id="${e.a.id}">${e.a.id} ${esc(e.a.title)}${e.period && e.label!=='Periodo completo' ? ' · ' + esc(e.label) : ''}: ${fmt(e.start)} a ${fmt(e.end)}</button>`).join('')}</div>`;
+  h += '<div class="cal">' + ['lun','mar','mié','jue','vie','sáb','dom'].map(d => `<div class="dow">${d}</div>`).join('');
+  for (let i = 0; i < lead; i++) h += '<div class="day out"></div>';
+  for (let d = 1; d <= days; d++) {
+    const s = iso(new Date(y, m, d, 12)), today = evs.filter(e => !e.period && e.start === s);
+    h += `<div class="day ${HOL.includes(s)?'hol':''}"><span class="n">${d}${HOL.includes(s)?' · feriado':''}</span>${today.map(e => `<button class="ev ${e.gasto?'g':''}" data-id="${e.a.id}" title="${esc(e.a.title)}">${e.a.id} ${esc(e.a.title)}${e.est?' ≈':''}</button>`).join('')}</div>`;
+  }
+  const tail = (7 - (lead + days) % 7) % 7; for (let i = 0; i < tail; i++) h += '<div class="day out"></div>';
+  return h + '</div>';
+}
+function lst(list){
+  const evs = list.flatMap(events).sort((x,y) => x.start.localeCompare(y.start) || x.a.id.localeCompare(y.a.id, undefined, {numeric:true}));
+  if (!evs.length) return '<p class="empty">Ninguna actividad con estos filtros.</p>';
+  let h = '', cur = '';
+  evs.forEach(e => {
+    const m = D(e.start).getMonth();
+    if (m !== cur) { h += (cur === '' ? '' : '</div>') + `<div class="month"><h3>${MONTHS[m-3]}</h3>`; cur = m; }
+    h += `<div class="row"><div class="d">${fmt(e.start)}${e.est?' <span class="est">≈</span>':''}<small>${e.end!==e.start ? 'al ' + fmt(e.end) : wd(e.start)}</small></div>
+      <div class="w" data-id="${e.a.id}">${e.a.id} ${esc(e.a.title)}<span>${esc(e.label || '')}${e.label?' · ':''}${esc(e.a.resp)}${e.gasto?' · con gasto':''}</span></div>
+      <a class="gc" href="${gcal(e)}" target="_blank" rel="noopener">+ Google Calendar</a></div>`;
+  });
+  return h + '</div>';
+}
+function render(){
+  document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === st.view));
+  document.querySelectorAll('[data-h]').forEach(b => b.setAttribute('aria-pressed', st.hitos.has(b.dataset.h)));
+  $('#onlyCost').setAttribute('aria-pressed', st.cost);
+  const list = visible();
+  $('#view').innerHTML = st.view === 'gantt' ? gantt(list) : st.view === 'cal' ? cal(list) : lst(list);
+  try { localStorage.setItem('gantt27', JSON.stringify({view:st.view, month:st.month})); } catch(e) {}
+}
+function open(id){
+  const a = A.find(x => x.id === id), evs = events(a);
+  $('#det').innerHTML = `<header><button class="close" id="xc" aria-label="Cerrar">×</button><span class="tag">Hito ${a.hito}</span><span class="tag ${a.gasto?'g':''}">${a.gasto?'Con gasto':'Sin gasto'}</span>
+    <h2 id="dTitle">${a.id} ${esc(a.title)}</h2><div style="color:var(--muted);font-size:14px">${esc(a.resp)} · ${fmt(a.start)}${a.end!==a.start?' al '+fmt(a.end):''}</div></header>
+    <div class="body"><p>${esc(a.desc)}</p><h3 style="font-size:15px;margin:18px 0 4px">${a.type==='periodo'?'Periodo':evs.length>1?'Fechas':'Fecha'}</h3>
+    ${evs.map(e => `<div class="sess"><div><b>${fmt(e.start)}${e.end!==e.start?' al '+fmt(e.end):''}</b>${e.est?' <span class="est">≈ estimada</span>':''}<div style="font-size:13px;color:var(--muted)">${esc(e.label||'')}${e.label?' · ':''}${wd(e.start)}</div></div><a class="gc" href="${gcal(e)}" target="_blank" rel="noopener">+ Google Calendar</a></div>`).join('')}
+    <button class="btn ghost" id="cpOne" style="margin-top:14px">Copiar .ics de esta actividad</button></div>`;
+  $('#det').classList.add('on'); $('#shade').classList.add('on'); $('#det').setAttribute('aria-hidden','false'); $('#xc').focus();
+  $('#xc').onclick = close; $('#cpOne').onclick = () => copy(ics(evs), evs.length);
+}
+function close(){ $('#det').classList.remove('on'); $('#shade').classList.remove('on'); $('#det').setAttribute('aria-hidden','true'); }
+async function copy(text, n){
+  try { await navigator.clipboard.writeText(text); toast(`Copiado: ${n} eventos. Pégalo en un archivo .ics e impórtalo en Google Calendar.`); }
+  catch(e) { toast('El navegador no dejó copiar. Usa los botones de Google Calendar.'); }
+}
+
+document.addEventListener('click', ev => {
+  const v = ev.target.closest('[data-view]'); if (v) { st.view = v.dataset.view; return render(); }
+  const h = ev.target.closest('[data-h]'); if (h) { const n = h.dataset.h; st.hitos.has(n) && st.hitos.size > 1 ? st.hitos.delete(n) : st.hitos.add(n); return render(); }
+  if (ev.target.id === 'prev') { st.month--; return render(); }
+  if (ev.target.id === 'next') { st.month++; return render(); }
+  if (ev.target.closest('.gc')) return;
+  const it = ev.target.closest('[data-id]'); if (it) open(it.dataset.id);
+});
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape') close();
+  if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.matches('.name')) { ev.preventDefault(); open(ev.target.dataset.id); }
+});
+$('#shade').onclick = close;
+$('#q').oninput = e => { st.q = e.target.value.trim().toLowerCase(); render(); };
+$('#resp').onchange = e => { st.resp = e.target.value; render(); };
+$('#onlyCost').onclick = () => { st.cost = !st.cost; render(); };
+$('#copyIcs').onclick = () => { const evs = visible().flatMap(events); copy(ics(evs), evs.length); };
+render();
+}
+</script>
+</body>
+</html>

@@ -21,7 +21,9 @@
 
   var PAGINAS = [
     { href: 'index.html', largo: 'Malla flexible', detalle: '5 años', corto: 'Flexible' },
-    { href: 'malla-curricular-fae-usach-2027.html', largo: '1er semestre 2027', detalle: '16 semanas', corto: '1er semestre' }
+    { href: 'malla-curricular-fae-usach-2027.html', largo: '1er semestre 2027', detalle: '16 semanas', corto: '1er semestre' },
+    // [23 nov · actividades] carta Gantt v11 del Fondo León con calendario
+    { href: 'actividades.html', largo: 'Actividades 2027', detalle: 'carta Gantt', corto: 'Actividades' }
   ];
   var SITIO = 'https://clubfinanzasfae.cl';
 
@@ -54,6 +56,8 @@
     '.clubbar__tabs a[aria-current="page"]{background:#C9A84C;color:#0B0B0A}',
     '.clubbar a:focus-visible{outline:2px solid #C9A84C;outline-offset:2px}',
     '.clubbar .c-corto{display:none}',
+    // [23 nov · actividades] antes 760px: con tres pestañas el nombre se oculta antes
+    '@media (max-width:960px){.clubbar__name{display:none}}',
     '@media (max-width:760px){:root{--clubbar-h:52px}.clubbar__name,.clubbar__tabs small{display:none}.clubbar__brand img{height:28px}}',
     '@media (max-width:420px){.clubbar .c-largo{display:none}.clubbar .c-corto{display:inline}.clubbar__tabs a{padding:7px 11px;font-size:13px}}',
     '@media (prefers-reduced-motion:reduce){.clubbar__tabs a{transition:none}}',
